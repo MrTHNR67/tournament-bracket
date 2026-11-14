@@ -29,6 +29,7 @@ npx serve .
 - **Project URL:** `https://tgrrpgrnctgpgjftlnti.supabase.co`
 - **Publishable Key:** موجود داخل `index.html` (مفتاح عام آمن للواجهة).
 - **Anonymous Sign-Ins:** مفعّل من `Authentication → Providers → Anonymous Sign-Ins`.
+- **المخطط الكامل:** موجود في `supabase.sql` ويمكن لصقه في SQL Editor لإعادة الإنشاء.
 
 ### تغيير عنوان التصويت
 
@@ -79,13 +80,14 @@ update voting_data.settings set is_open = false where singleton; -- إغلاق
 update voting_data.settings set is_open = true  where singleton; -- فتح
 ```
 
-### تصفير الأصوات قبل النشر
+### تصفير الأصوات قبل النشر أو لبدء تصويت جديد
 
 ```sql
 delete from voting_data.ballots;
+update voting_data.settings set version = version + 1 where singleton;
 ```
 
-سيتم حذف الاختيارات المرتبطة تلقائيًا بسبب `on delete cascade`.
+سيتم حذف الاختيارات المرتبطة تلقائيًا بسبب `on delete cascade`. زيادة `version` تسمح للمصوّتين السابقين بالتصويت مجددًا في التصويت الجديد، لأن الواجهة تخزّن علامة "تم التصويت" مرتبطة برقم النسخة.
 
 ### عرض النتائج من SQL Editor
 
@@ -102,6 +104,7 @@ select public.get_voting_state();
 | الملف | الوظيفة |
 |---|---|
 | `index.html` | تطبيق التصويت المباشر (HTML + CSS + JavaScript + Supabase) |
+| `supabase.sql` | مخطط قاعدة البيانات والدوال وسياسات الوصول |
 | `tournament.html` | تطبيق بطولة الخروج المغلوب القديم (بدون خادم) |
 | `render.yaml` | إعداد نشر ثابت اختياري على Render |
 | `og.jpg` | صورة مشاركة صفحة التصويت |

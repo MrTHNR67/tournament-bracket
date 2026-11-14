@@ -690,6 +690,19 @@ function isDuplicateError(err) {
   return (err && String(err.code) === '23505') || /duplicate key|already exists/i.test(message);
 }
 
+function votedStorageKey() {
+  const version = poll && Number.isFinite(Number(poll.version)) ? Number(poll.version) : 1;
+  return VOTED_KEY + '_v' + version;
+}
+
+function hasLocalVote() {
+  try { return localStorage.getItem(votedStorageKey()) === '1'; } catch (e) { return false; }
+}
+
+function markLocalVote() {
+  try { localStorage.setItem(votedStorageKey(), '1'); } catch (e) {}
+}
+
 function updateLastUpdated() {
   const time = new Intl.DateTimeFormat('ar-EG', {
     hour: '2-digit',
@@ -704,7 +717,7 @@ function syncSelection() {
   const validIds = new Set((poll.choices || []).map((choice) => Number(choice.id)));
   if (poll.already_voted) {
     selected = new Set((poll.my_choices || []).map((choiceId) => Number(choiceId)));
-    try { localStorage.setItem(VOTED_KEY, '1'); } catch (e) {}
+    markLocalVote();
   } else {
     selected = new Set([...selected].filter((choiceId) => validIds.has(choiceId)));
   }
@@ -736,8 +749,7 @@ function render() {
   const maxChoices = Math.max(1, Number(poll.max_choices || 1));
   const myChoices = new Set((poll.my_choices || []).map((choiceId) => Number(choiceId)));
   const alreadyVoted = Boolean(poll.already_voted);
-  let localVoted = false;
-  try { localVoted = localStorage.getItem(VOTED_KEY) === '1'; } catch (e) {}
+  const localVoted = hasLocalVote();
   const voted = alreadyVoted || localVoted;
   const isOpen = Boolean(poll.is_open);
   const canVote = isOpen && !voted && !busy;
@@ -849,9 +861,7 @@ function render() {
 
 function toggleChoice(choiceId) {
   if (busy || !poll || !poll.is_open || poll.already_voted) return;
-  let localVoted = false;
-  try { localVoted = localStorage.getItem(VOTED_KEY) === '1'; } catch (e) {}
-  if (localVoted) return;
+  if (hasLocalVote()) return;
 
   const maxChoices = Math.max(1, Number(poll.max_choices || 1));
   if (maxChoices === 1) {
@@ -906,9 +916,7 @@ async function loadState(options = {}) {
 async function castVote() {
   if (busy || !poll) return;
   const maxChoices = Math.max(1, Number(poll.max_choices || 1));
-  let localVoted = false;
-  try { localVoted = localStorage.getItem(VOTED_KEY) === '1'; } catch (e) {}
-  if (!poll.is_open || poll.already_voted || localVoted) return;
+  if (!poll.is_open || poll.already_voted || hasLocalVote()) return;
 
   const choiceIds = [...selected].map(Number).sort((a, b) => a - b);
   if (choiceIds.length < 1 || choiceIds.length > maxChoices) {
@@ -934,13 +942,13 @@ async function castVote() {
     const { error } = await supabase.rpc('submit_voting_ballot', { choice_ids: choiceIds });
     if (error) throw error;
 
-    try { localStorage.setItem(VOTED_KEY, '1'); } catch (e) {}
+    markLocalVote();
     setFeedback('تم تسجيل صوتك بنجاح. شكرًا لمشاركتك!', 'success');
     await loadState({ silent: true });
   } catch (err) {
     console.error('submit_voting_ballot failed:', err);
     if (isDuplicateError(err)) {
-      try { localStorage.setItem(VOTED_KEY, '1'); } catch (e) {}
+      markLocalVote();
       setFeedback('تم تسجيل صوتك مسبقًا من هذا المتصفح.', 'info');
       await loadState({ silent: true });
     } else {
