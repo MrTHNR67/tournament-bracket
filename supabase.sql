@@ -57,16 +57,26 @@ insert into voting_data.settings (singleton, title, max_choices, is_open, versio
 values (true, 'التصويت', 1, true, 1)
 on conflict (singleton) do nothing;
 
--- أسماء الخيارات. بدّلها بأسماءك، وأضف صفًا جديدًا لكل خيار إضافي.
--- مثال لإضافة خيار سابع:
---   (7, 'الاسم السابع')
+-- أسماء الخيارات (المتنافسون). بدّلها أو أضف صفًا جديدًا برقم جديد لكل خيار إضافي.
+-- مثال لإضافة خيار 17:
+--   (17, 'اسم جديد')
 insert into voting_data.choices (id, label) values
-  (1, 'الخيار الأول'),
-  (2, 'الخيار الثاني'),
-  (3, 'الخيار الثالث'),
-  (4, 'الخيار الرابع'),
-  (5, 'الخيار الخامس'),
-  (6, 'الخيار السادس')
+  (1, 'أمانير'),
+  (2, 'حارِس'),
+  (3, 'حصين'),
+  (4, 'وهّاج'),
+  (5, 'SolGuard'),
+  (6, 'RayShield'),
+  (7, 'Sunova'),
+  (8, 'Solvex'),
+  (9, 'Panelix'),
+  (10, 'Sunora'),
+  (11, 'Solvanta'),
+  (12, 'Soliva'),
+  (13, 'Heliora'),
+  (14, 'Solnex'),
+  (15, 'سياد'),
+  (16, 'مرصدة')
 on conflict (id) do update set label = excluded.label;
 
 create or replace function public.get_voting_state()
