@@ -3,991 +3,583 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>التصويت — صوّت وشاهد النتائج مباشرة</title>
-<meta name="description" content="تصويت عربي مباشر: اختر من الخيارات، صوّت من جوالك أو لابتوبك، وشاهد النتائج تتحدث لحظة بلحظة. بدون إيميل وبدون تسجيل.">
+<title>بطولة المواجهات — تصفيات بالأصوات</title>
+<meta name="description" content="بطولة خروج مغلوب (جولات) يصوّت فيها الجميع من أجهزتهم، وتتحدث النتائج مباشرة حتى تبقى بطل واحد.">
 <meta name="theme-color" content="#081426">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🗳️%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏆%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="التصويت المباشر">
-<meta property="og:title" content="التصويت — صوّت وشاهد النتائج مباشرة">
-<meta property="og:description" content="اختر من الخيارات، صوّت من جهازك، وشاهد النتائج تتحدث لحظة بلحظة.">
+<meta property="og:site_name" content="بطولة المواجهات">
+<meta property="og:title" content="بطولة المواجهات 🏆">
+<meta property="og:description" content="أدخل الأسماء، صوّت في كل مواجهة، والفائز يكمل حتى يبقى بطل واحد.">
 <meta property="og:url" content="https://mrthnr67.github.io/tournament-bracket/">
-<meta property="og:image" content="https://mrthnr67.github.io/tournament-bracket/og.jpg">
+<meta property="og:image" content="https://mrthnr67.github.io/tournament-bracket/og-tournament.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="التصويت المباشر — صوّت من جهازك وشاهد النتائج">
 <meta property="og:locale" content="ar_AR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="التصويت — صوّت وشاهد النتائج مباشرة">
-<meta name="twitter:description" content="اختر من الخيارات، صوّت من جهازك، وشاهد النتائج تتحدث لحظة بلحظة.">
-<meta name="twitter:image" content="https://mrthnr67.github.io/tournament-bracket/og.jpg">
+<meta name="twitter:title" content="بطولة المواجهات 🏆">
+<meta name="twitter:description" content="أدخل الأسماء، صوّت في كل مواجهة، والفائز يكمل حتى يبقى بطل واحد.">
+<meta name="twitter:image" content="https://mrthnr67.github.io/tournament-bracket/og-tournament.jpg">
 <style>
   :root {
-    --bg-1: #081426;
-    --bg-2: #0e2340;
-    --bg-3: #133a5c;
-    --card: rgba(255, 255, 255, 0.065);
-    --card-2: rgba(255, 255, 255, 0.1);
-    --border: rgba(255, 255, 255, 0.13);
-    --text: #f7faff;
-    --muted: rgba(232, 241, 255, 0.67);
-    --accent: #ffd166;
-    --accent-ink: #17233f;
-    --teal: #7ee0c3;
-    --danger: #ff9b9b;
-    --success: #8ef0c9;
-    --radius: 22px;
-    --shadow: 0 24px 70px rgba(2, 9, 24, 0.42);
+    --bg-1: #081426; --bg-2: #0e2340; --bg-3: #133a5c;
+    --card: rgba(255, 255, 255, 0.065); --card-2: rgba(255, 255, 255, 0.1);
+    --border: rgba(255, 255, 255, 0.13); --text: #f7faff; --muted: rgba(232, 241, 255, 0.67);
+    --accent: #ffd166; --accent-ink: #17233f; --teal: #7ee0c3; --danger: #ff9b9b; --success: #8ef0c9;
+    --radius: 22px; --shadow: 0 24px 70px rgba(2, 9, 24, 0.42);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   [hidden] { display: none !important; }
-
   body {
     font-family: "Segoe UI", Tahoma, "Noto Kufi Arabic", "Noto Sans Arabic", sans-serif;
-    min-height: 100vh;
-    min-height: 100dvh;
-    color: var(--text);
-    background:
-      radial-gradient(1100px 620px at 90% -12%, rgba(255, 209, 102, 0.17), transparent 62%),
-      radial-gradient(900px 560px at -5% 18%, rgba(126, 224, 195, 0.13), transparent 58%),
-      linear-gradient(160deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
-    background-attachment: fixed;
-    padding: clamp(18px, 4vw, 34px) 16px 54px;
-    line-height: 1.6;
-    overflow-x: hidden;
+    min-height: 100vh; min-height: 100dvh; color: var(--text);
+    background: radial-gradient(1100px 620px at 90% -12%, rgba(255,209,102,0.17), transparent 62%),
+                radial-gradient(900px 560px at -5% 18%, rgba(126,224,195,0.13), transparent 58%),
+                linear-gradient(160deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
+    background-attachment: fixed; padding: clamp(18px,4vw,34px) 16px 54px; line-height: 1.6; overflow-x: hidden;
   }
-
-  .ambient {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: -1;
-  }
-  .ambient span {
-    position: absolute;
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    filter: blur(70px);
-    opacity: 0.22;
-    animation: drift 16s ease-in-out infinite alternate;
-  }
-  .ambient span:nth-child(1) { background: var(--accent); top: -80px; right: -40px; }
-  .ambient span:nth-child(2) { background: var(--teal); bottom: 8%; left: -100px; animation-delay: -6s; }
-  .ambient span:nth-child(3) { background: #6f9bff; top: 42%; right: 38%; width: 220px; height: 220px; animation-delay: -11s; }
-  @keyframes drift {
-    from { transform: translate3d(0, 0, 0) scale(1); }
-    to { transform: translate3d(24px, -26px, 0) scale(1.12); }
-  }
-
-  .container { max-width: 880px; margin: 0 auto; }
-
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-  }
-
-  /* ---------- header ---------- */
-  .site-head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 18px;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
-  }
+  .container { max-width: 980px; margin: 0 auto; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+  .site-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 18px; flex-wrap: wrap; }
   .brand { display: flex; align-items: center; gap: 15px; }
-  .brand-icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 20px;
-    display: grid;
-    place-items: center;
-    font-size: 2rem;
-    background: linear-gradient(135deg, rgba(255, 209, 102, 0.3), rgba(255, 209, 102, 0.05));
-    border: 1px solid rgba(255, 209, 102, 0.36);
-    box-shadow: 0 10px 30px rgba(255, 209, 102, 0.14);
-    flex-shrink: 0;
-  }
-  .brand-copy h1 {
-    font-size: clamp(1.55rem, 3.4vw, 2.05rem);
-    line-height: 1.25;
-    letter-spacing: -0.2px;
-  }
-  .brand-copy p:not(.eyebrow) {
-    color: var(--muted);
-    font-size: 0.9rem;
-    margin-top: 3px;
-  }
-  .eyebrow {
-    color: var(--accent);
-    font-size: 0.7rem;
-    font-weight: 800;
-    letter-spacing: 1.4px;
-    margin-bottom: 3px;
-  }
+  .brand-icon { width: 64px; height: 64px; border-radius: 20px; display: grid; place-items: center; font-size: 2rem; background: linear-gradient(135deg, rgba(255,209,102,0.3), rgba(255,209,102,0.05)); border: 1px solid rgba(255,209,102,0.36); box-shadow: 0 10px 30px rgba(255,209,102,0.14); flex-shrink: 0; }
+  .brand-copy h1 { font-size: clamp(1.55rem,3.4vw,2.05rem); line-height: 1.25; }
+  .brand-copy p:not(.eyebrow) { color: var(--muted); font-size: 0.9rem; margin-top: 3px; }
+  .eyebrow { color: var(--accent); font-size: 0.7rem; font-weight: 800; letter-spacing: 1.4px; margin-bottom: 3px; }
+  .live-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 50px; background: rgba(126,224,195,0.1); border: 1px solid rgba(126,224,195,0.32); color: var(--success); font-size: 0.8rem; font-weight: 800; white-space: nowrap; transition: 0.25s; }
+  .live-badge.closed { background: rgba(255,209,102,0.1); border-color: rgba(255,209,102,0.32); color: var(--accent); }
+  .live-badge.offline { background: rgba(255,155,155,0.1); border-color: rgba(255,155,155,0.32); color: var(--danger); }
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; animation: pulse 1.8s ease-in-out infinite; }
+  .live-badge.closed .live-dot, .live-badge.offline .live-dot { animation: none; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.45;transform:scale(.82)} }
 
-  .live-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    border-radius: 50px;
-    background: rgba(126, 224, 195, 0.1);
-    border: 1px solid rgba(126, 224, 195, 0.32);
-    color: var(--success);
-    font-size: 0.8rem;
-    font-weight: 800;
-    white-space: nowrap;
-    transition: background 0.25s, border-color 0.25s, color 0.25s;
-  }
-  .live-badge.closed {
-    background: rgba(255, 209, 102, 0.1);
-    border-color: rgba(255, 209, 102, 0.32);
-    color: var(--accent);
-  }
-  .live-badge.offline {
-    background: rgba(255, 155, 155, 0.1);
-    border-color: rgba(255, 155, 155, 0.32);
-    color: var(--danger);
-  }
-  .live-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: currentColor;
-    box-shadow: 0 0 0 4px rgba(126, 224, 195, 0.12);
-    animation: pulse 1.8s ease-in-out infinite;
-  }
-  .live-badge.closed .live-dot,
-  .live-badge.offline .live-dot { animation: none; }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.45; transform: scale(0.82); }
-  }
+  .round-banner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 22px; margin-bottom: 14px; flex-wrap: wrap; }
+  .round-banner h2 { font-size: 1.5rem; margin: 2px 0 4px; }
+  .round-banner p:not(.eyebrow) { color: var(--muted); font-size: 0.9rem; }
+  .round-counter { text-align: center; min-width: 96px; padding: 10px 14px; border-radius: 16px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); }
+  .round-counter strong { display: block; color: var(--accent); font-size: 1.5rem; line-height: 1.2; }
+  .round-counter span { font-size: 0.72rem; color: var(--muted); }
+  .progress { height: 8px; border-radius: 50px; background: rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 20px; }
+  .progress i { display: block; height: 100%; width: 0; border-radius: 50px; background: linear-gradient(90deg, var(--teal), var(--accent)); transition: width 0.45s ease; }
 
-  /* ---------- status pills ---------- */
-  .status-strip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 18px;
-  }
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 50px;
-    font-size: 0.8rem;
-    color: var(--muted);
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid var(--border);
-  }
-  .pill.live { color: var(--success); background: rgba(126, 224, 195, 0.1); border-color: rgba(126, 224, 195, 0.25); }
-  .pill.success { color: var(--accent); background: rgba(255, 209, 102, 0.1); border-color: rgba(255, 209, 102, 0.28); }
-  .pill.closed { color: var(--accent); background: rgba(255, 209, 102, 0.09); border-color: rgba(255, 209, 102, 0.24); }
-
-  /* ---------- poll card ---------- */
-  .poll-card {
-    padding: clamp(20px, 4.2vw, 32px);
-    position: relative;
-    overflow: hidden;
-  }
-  .poll-card::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(255, 209, 102, 0.7), rgba(126, 224, 195, 0.7), transparent);
-    opacity: 0.85;
-  }
-  .poll-head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 18px;
-    margin-bottom: 20px;
-  }
-  .poll-head h2 { font-size: clamp(1.25rem, 3vw, 1.55rem); line-height: 1.3; }
-  .section-sub { color: var(--muted); font-size: 0.88rem; margin-top: 4px; }
-  .vote-total {
-    min-width: 92px;
-    text-align: center;
-    padding: 10px 16px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-  .vote-total strong {
-    display: block;
-    color: var(--accent);
-    font-size: 1.6rem;
-    line-height: 1.15;
-    font-variant-numeric: tabular-nums;
-  }
-  .vote-total span { color: var(--muted); font-size: 0.72rem; }
-
-  .choices { display: grid; gap: 10px; }
-  .choice {
-    position: relative;
-    display: block;
-    width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 17px;
-    background: rgba(255, 255, 255, 0.045);
-    color: var(--text);
-    font-family: inherit;
-    text-align: right;
-    padding: 15px 16px 13px;
-    cursor: pointer;
-    transition: transform 0.15s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
-  }
-  .choice:hover:not(:disabled) {
-    transform: translateY(-1px);
-    border-color: rgba(255, 209, 102, 0.45);
-    background: rgba(255, 255, 255, 0.075);
-  }
-  .choice:focus-visible {
-    outline: 3px solid rgba(255, 209, 102, 0.45);
-    outline-offset: 2px;
-  }
-  .choice.selected {
-    border-color: rgba(255, 209, 102, 0.85);
-    background: linear-gradient(135deg, rgba(255, 209, 102, 0.16), rgba(255, 209, 102, 0.045));
-    box-shadow: 0 0 0 1px rgba(255, 209, 102, 0.2), 0 12px 30px rgba(2, 9, 24, 0.2);
-  }
-  .choice:disabled { cursor: default; }
-  .choice:disabled:not(.selected) { opacity: 0.78; }
-
-  .choice-top {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    min-width: 0;
-  }
-  .choice-mark {
-    width: 23px;
-    height: 23px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.28);
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
-    transition: background 0.18s, border-color 0.18s, box-shadow 0.18s;
-  }
-  .choice.multi .choice-mark { border-radius: 7px; }
-  .choice.selected .choice-mark {
-    background: var(--accent);
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px rgba(255, 209, 102, 0.12);
-  }
-  .choice-mark::after {
-    content: "";
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--accent-ink);
-    transform: scale(0);
-    transition: transform 0.16s;
-  }
-  .choice.multi .choice-mark::after { border-radius: 2px; }
-  .choice.selected .choice-mark::after { transform: scale(1); }
-
-  .choice-label {
-    flex: 1;
-    min-width: 0;
-    font-weight: 750;
-    font-size: 1rem;
-    overflow-wrap: anywhere;
-  }
-  .choice-stats {
-    display: flex;
-    align-items: baseline;
-    gap: 5px;
-    color: var(--muted);
-    font-size: 0.78rem;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .choice-stats strong {
-    color: var(--text);
-    font-size: 0.98rem;
-    font-variant-numeric: tabular-nums;
-  }
-  .choice.selected .choice-stats strong { color: var(--accent); }
-  .choice-stats .pct { color: var(--muted); }
-  .own-vote {
-    color: var(--accent);
-    background: rgba(255, 209, 102, 0.13);
-    border: 1px solid rgba(255, 209, 102, 0.26);
-    border-radius: 50px;
-    padding: 1px 7px;
-    font-size: 0.68rem;
-    font-weight: 800;
-  }
-
-  .bar {
-    display: block;
-    height: 7px;
-    margin-top: 11px;
-    border-radius: 99px;
-    background: rgba(255, 255, 255, 0.085);
-    overflow: hidden;
-  }
-  .bar i {
-    display: block;
-    height: 100%;
-    width: 0;
-    border-radius: 99px;
-    background: linear-gradient(90deg, var(--teal), var(--accent));
-    transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .choice.selected .bar i { background: linear-gradient(90deg, var(--accent), #ffe9a8); }
-
-  .loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    min-height: 160px;
-    color: var(--muted);
-    font-size: 0.92rem;
-  }
-  .spinner {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 3px solid rgba(255, 255, 255, 0.14);
-    border-top-color: var(--accent);
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .feedback {
-    margin-top: 15px;
-    padding: 11px 14px;
-    border-radius: 13px;
-    font-size: 0.87rem;
-    line-height: 1.55;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid var(--border);
-    color: var(--text);
-  }
-  .feedback.success {
-    background: rgba(126, 224, 195, 0.1);
-    border-color: rgba(126, 224, 195, 0.28);
-    color: var(--success);
-  }
-  .feedback.error {
-    background: rgba(255, 155, 155, 0.1);
-    border-color: rgba(255, 155, 155, 0.28);
-    color: var(--danger);
-  }
-  .feedback.info {
-    background: rgba(255, 209, 102, 0.08);
-    border-color: rgba(255, 209, 102, 0.24);
-    color: var(--accent);
-  }
-
-  .actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    margin-top: 20px;
-    flex-wrap: wrap;
-  }
-  .btn {
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    padding: 12px 22px;
-    font-family: inherit;
-    font-size: 0.96rem;
-    font-weight: 800;
-    cursor: pointer;
-    background: var(--card-2);
-    color: var(--text);
-    transition: transform 0.15s, filter 0.2s, background 0.2s, opacity 0.2s;
-  }
+  .match { padding: 16px 18px; margin-bottom: 14px; }
+  .match-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .match-title { font-weight: 800; font-size: 1rem; }
+  .match-status { font-size: 0.75rem; padding: 3px 10px; border-radius: 50px; border: 1px solid var(--border); color: var(--muted); }
+  .match-status.voting { color: var(--success); border-color: rgba(126,224,195,0.35); background: rgba(126,224,195,0.08); }
+  .match-status.closed { color: var(--accent); border-color: rgba(255,209,102,0.35); background: rgba(255,209,102,0.08); }
+  .sides { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .side { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 16px; padding: 14px; text-align: center; }
+  .side.winner { border-color: rgba(255,209,102,0.7); background: linear-gradient(135deg, rgba(255,209,102,0.16), rgba(255,209,102,0.04)); }
+  .side-name { font-weight: 800; font-size: 1.05rem; margin-bottom: 6px; }
+  .side-votes { color: var(--muted); font-size: 0.85rem; margin-bottom: 8px; }
+  .side-votes strong { color: var(--text); font-size: 1.1rem; }
+  .bar { height: 7px; border-radius: 99px; background: rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 10px; }
+  .bar i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--teal), var(--accent)); transition: width 0.5s ease; }
+  .side.winner .bar i { background: linear-gradient(90deg, var(--accent), #ffe9a8); }
+  .vote-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .btn { border: 1px solid var(--border); border-radius: 50px; padding: 10px 18px; font-family: inherit; font-size: 0.9rem; font-weight: 800; cursor: pointer; background: var(--card-2); color: var(--text); transition: transform 0.15s, filter 0.2s, opacity 0.2s; }
   .btn:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.07); }
-  .btn:active:not(:disabled) { transform: translateY(0); }
-  .btn:focus-visible { outline: 3px solid rgba(255, 209, 102, 0.45); outline-offset: 2px; }
-  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-  .btn.primary {
-    background: linear-gradient(135deg, #ffe08a, var(--accent));
-    color: var(--accent-ink);
-    border-color: transparent;
-    box-shadow: 0 12px 28px rgba(255, 209, 102, 0.2);
-  }
-  .btn.primary:disabled { box-shadow: none; }
-  .btn.big { padding: 14px 30px; flex: 1 1 190px; }
-  .btn.ghost { background: rgba(255, 255, 255, 0.06); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn.primary { background: linear-gradient(135deg, #ffe08a, var(--accent)); color: var(--accent-ink); border-color: transparent; }
+  .btn.ghost { background: rgba(255,255,255,0.06); }
+  .btn.small { padding: 7px 14px; font-size: 0.8rem; }
+  .btn.danger { background: rgba(255,155,155,0.12); border-color: rgba(255,155,155,0.3); color: var(--danger); }
 
-  .poll-foot {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 14px;
-    margin-top: 14px;
-    flex-wrap: wrap;
-  }
-  .fineprint, .updated {
-    color: var(--muted);
-    font-size: 0.75rem;
-    line-height: 1.55;
-  }
-  .updated { text-align: left; font-variant-numeric: tabular-nums; }
-
-  .info-card {
-    display: flex;
-    gap: 15px;
-    align-items: flex-start;
-    padding: 20px 22px;
-    margin-top: 18px;
-  }
-  .info-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 13px;
-    display: grid;
-    place-items: center;
-    background: rgba(126, 224, 195, 0.1);
-    border: 1px solid rgba(126, 224, 195, 0.24);
-    font-size: 1.2rem;
-    flex-shrink: 0;
-  }
-  .info-card h2 { font-size: 1rem; margin-bottom: 3px; }
-  .info-card p { color: var(--muted); font-size: 0.86rem; }
-
-  .site-foot {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-top: 24px;
-    color: var(--muted);
-    font-size: 0.78rem;
-    flex-wrap: wrap;
-  }
-  .site-foot a {
-    color: var(--accent);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(255, 209, 102, 0.35);
-    padding-bottom: 1px;
-  }
-  .site-foot a:hover { border-bottom-color: var(--accent); }
-
+  .admin-panel { padding: 20px 22px; margin-bottom: 18px; border: 1px solid rgba(255,209,102,0.3); }
+  .admin-panel h3 { font-size: 1.05rem; margin-bottom: 10px; color: var(--accent); }
+  .admin-panel textarea { width: 100%; min-height: 150px; resize: vertical; background: rgba(6,17,40,0.45); color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; font-family: inherit; font-size: 0.9rem; }
+  .admin-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .participants { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .participant-chip { padding: 6px 12px; border-radius: 50px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); font-size: 0.85rem; }
+  .participant-chip.eliminated { opacity: 0.35; text-decoration: line-through; }
+  .participant-chip.champion { border-color: var(--accent); background: rgba(255,209,102,0.15); color: var(--accent); font-weight: 800; }
+  .champion-screen { text-align: center; padding: 40px 20px; }
+  .champion-screen .trophy { font-size: 4rem; margin-bottom: 12px; }
+  .champion-screen h2 { font-size: 1.8rem; color: var(--accent); margin-bottom: 6px; }
+  .feedback { margin-top: 12px; padding: 10px 14px; border-radius: 12px; font-size: 0.87rem; background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text); }
+  .feedback.success { background: rgba(126,224,195,0.1); border-color: rgba(126,224,195,0.28); color: var(--success); }
+  .feedback.error { background: rgba(255,155,155,0.1); border-color: rgba(255,155,155,0.28); color: var(--danger); }
+  .feedback.info { background: rgba(255,209,102,0.08); border-color: rgba(255,209,102,0.24); color: var(--accent); }
+  .loading { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 160px; color: var(--muted); }
+  .spinner { width: 22px; height: 22px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.14); border-top-color: var(--accent); animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .idle-screen { text-align: center; padding: 40px 20px; color: var(--muted); }
+  .idle-screen h2 { color: var(--text); margin-bottom: 8px; }
+  .site-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 24px; color: var(--muted); font-size: 0.78rem; flex-wrap: wrap; }
+  .site-foot a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(255,209,102,0.35); padding-bottom: 1px; }
   @media (max-width: 560px) {
-    .brand-icon { width: 54px; height: 54px; border-radius: 17px; font-size: 1.65rem; }
-    .site-head { align-items: center; }
-    .live-badge { padding: 7px 12px; font-size: 0.75rem; }
-    .poll-head { align-items: center; }
-    .vote-total { min-width: 78px; padding: 8px 12px; }
-    .vote-total strong { font-size: 1.35rem; }
-    .choice { padding: 13px 14px 12px; }
-    .choice-label { font-size: 0.95rem; }
-    .choice-stats { gap: 4px; font-size: 0.72rem; }
-    .choice-stats strong { font-size: 0.9rem; }
-    .actions { flex-direction: column-reverse; align-items: stretch; }
-    .btn.big { width: 100%; }
-    .btn.ghost { width: 100%; }
-    .poll-foot { flex-direction: column; }
-    .updated { text-align: right; }
+    .sides { grid-template-columns: 1fr; }
+    .brand-icon { width: 54px; height: 54px; font-size: 1.65rem; }
+    .round-banner { align-items: center; }
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      scroll-behavior: auto !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
+  @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; } }
 </style>
 </head>
 <body>
-<div class="ambient" aria-hidden="true"><span></span><span></span><span></span></div>
-
 <main class="container">
   <header class="site-head">
     <div class="brand">
-      <div class="brand-icon" aria-hidden="true">🗳️</div>
+      <div class="brand-icon" aria-hidden="true">🏆</div>
       <div class="brand-copy">
-        <p class="eyebrow">تصويت مباشر</p>
-        <h1 id="pollTitle">التصويت</h1>
-        <p id="pollSubtitle">صوّت من جهازك وشاهد النتائج لحظة بلحظة.</p>
+        <p class="eyebrow">بطولة المواجهات</p>
+        <h1 id="title">بطولة المواجهات</h1>
+        <p>صوّت في كل مواجهة، والفائز يكمل حتى يبقى بطل واحد.</p>
       </div>
     </div>
-    <div class="live-badge" id="liveBadge" aria-live="polite">
-      <span class="live-dot" aria-hidden="true"></span>
-      <span id="liveText">جارٍ الاتصال</span>
-    </div>
+    <div class="live-badge" id="liveBadge"><span class="live-dot" aria-hidden="true"></span><span id="liveText">جارٍ الاتصال</span></div>
   </header>
 
-  <div class="status-strip" aria-live="polite">
-    <span class="pill" id="statusPill">جارٍ التحميل…</span>
-    <span class="pill" id="modePill">—</span>
-    <span class="pill" id="voterPill">—</span>
-  </div>
+  <div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
 
-  <section class="card poll-card" aria-labelledby="pollHeading">
-    <div class="poll-head">
-      <div>
-        <p class="eyebrow">صوّت الآن</p>
-        <h2 id="pollHeading">اختر من الخيارات</h2>
-        <p class="section-sub" id="choiceHint">جارٍ تحميل الخيارات…</p>
-      </div>
-      <div class="vote-total" aria-label="إجمالي الأصوات">
-        <strong id="totalVotes">0</strong>
-        <span>صوت</span>
-      </div>
+  <section class="card admin-panel" id="adminPanel" hidden>
+    <h3>وضع الإدارة</h3>
+    <p class="muted" style="color:var(--muted);font-size:0.85rem;margin-bottom:10px;">أدخل أسماء المتنافسين (اسم في كل سطر) ثم اضغط «بدء بطولة جديدة».</p>
+    <textarea id="adminNames"></textarea>
+    <div class="admin-actions">
+      <button class="btn primary" id="adminResetBtn" type="button">بدء بطولة جديدة</button>
+      <button class="btn ghost" id="adminAdvanceBtn" type="button">الانتقال للجولة التالية</button>
+      <button class="btn danger" id="adminExitBtn" type="button">خروج من وضع الإدارة</button>
     </div>
-
-    <div id="loading" class="loading" role="status">
-      <span class="spinner" aria-hidden="true"></span>
-      <span>جارٍ تحميل التصويت…</span>
-    </div>
-
-    <div id="choices" class="choices" role="group" aria-label="خيارات التصويت"></div>
-    <div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
-
-    <div class="actions">
-      <button id="voteBtn" class="btn primary big" type="button" disabled>سجّل صوتي</button>
-      <button id="refreshBtn" class="btn ghost" type="button">تحديث النتائج</button>
-    </div>
-
-    <div class="poll-foot">
-      <p class="fineprint" id="fineprint">صوت واحد لكل متصفح. لا تمسح بيانات الموقع إذا كنت قد صوّت.</p>
-      <p class="updated" id="lastUpdated" aria-live="off"></p>
-    </div>
+    <p style="color:var(--muted);font-size:0.75rem;margin-top:8px;">رمز الإدارة محفوظ في هذا المتصفح.</p>
   </section>
 
-  <section class="card info-card" aria-labelledby="howHeading">
-    <div class="info-icon" aria-hidden="true">💡</div>
+  <div id="loading" class="loading" role="status"><span class="spinner" aria-hidden="true"></span><span>جارٍ تحميل البطولة…</span></div>
+
+  <div id="idleScreen" class="card idle-screen" hidden>
+    <h2>لم تبدأ البطولة بعد</h2>
+    <p>فعّل «وضع الإدارة» (الزر أسفل الصفحة) وأدخل الأسماء لبدء البطولة.</p>
+  </div>
+
+  <section class="card round-banner" id="roundBanner" hidden>
     <div>
-      <h2 id="howHeading">كيف يعمل؟</h2>
-      <p>افتح الرابط من جوالك أو لابتوبك، اختر الخيار المناسب، واضغط «سجّل صوتي». النتائج تتحدث تلقائيًا عند وصول أصوات جديدة.</p>
+      <p class="eyebrow" id="roundEyebrow">الجولة الحالية</p>
+      <h2 id="roundName">—</h2>
+      <p id="roundSub">—</p>
     </div>
+    <div class="round-counter">
+      <strong id="roundProgress">0/0</strong>
+      <span>مواجهات مغلقة</span>
+    </div>
+  </section>
+  <div class="progress" id="progressWrap" hidden><i id="progressBar"></i></div>
+
+  <div id="matchups" class="matchups"></div>
+
+  <div id="championScreen" class="card champion-screen" hidden>
+    <div class="trophy">🏆</div>
+    <h2 id="championName">—</h2>
+    <p style="color:var(--muted);">بطل البطولة</p>
+  </div>
+
+  <section class="card" id="participantsCard" hidden style="padding:18px 20px;margin-top:18px;">
+    <h3 style="font-size:1rem;margin-bottom:10px;">المشاركون</h3>
+    <div class="participants" id="participants"></div>
+  </section>
+
+  <section class="card" style="padding:18px 20px;margin-top:18px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+      <h3 style="font-size:1rem;">الوضع</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn ghost small" id="adminToggleBtn" type="button">وضع الإدارة</button>
+        <button class="btn ghost small" id="refreshBtn" type="button">تحديث</button>
+      </div>
+    </div>
+    <p style="color:var(--muted);font-size:0.82rem;margin-top:6px;">الرابط: شاركه مع الجميع. من يملك الرابط يمكنه التصويت.</p>
   </section>
 
   <footer class="site-foot">
-    <span>تصويت مباشر — بدون إيميل أو تسجيل.</span>
-    <a href="./tournament.html">هل تريد بطولة خروج مغلوب؟ جرّب صفحة البطولة</a>
+    <span>بطولة مباشرة — بدون إيميل أو تسجيل.</span>
+    <a href="./poll.html">هل تريد تصويتًا بسيطًا (خيار واحد)؟ جرّب صفحة التصويت</a>
   </footer>
 </main>
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-
 const SUPABASE_URL = 'https://tgrrpgrnctgpgjftlnti.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_UGrzTHYA9z-b9OWbjacS7A_W80nRKK_';
-const VOTED_KEY = 'voting_ballot_submitted_tgrrpgrnctgpgjftlnti';
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: false
-  }
-});
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false } });
 
 const byId = (id) => document.getElementById(id);
-const els = {
-  pollTitle: byId('pollTitle'),
-  pollSubtitle: byId('pollSubtitle'),
-  liveBadge: byId('liveBadge'),
-  liveText: byId('liveText'),
-  statusPill: byId('statusPill'),
-  modePill: byId('modePill'),
-  voterPill: byId('voterPill'),
-  pollHeading: byId('pollHeading'),
-  choiceHint: byId('choiceHint'),
-  totalVotes: byId('totalVotes'),
-  loading: byId('loading'),
-  choices: byId('choices'),
-  feedback: byId('feedback'),
-  voteBtn: byId('voteBtn'),
-  refreshBtn: byId('refreshBtn'),
-  fineprint: byId('fineprint'),
-  lastUpdated: byId('lastUpdated')
-};
-
-let poll = null;
-let selected = new Set();
+let state = null;
 let busy = false;
-let loading = true;
 let requestSeq = 0;
-let feedbackTimer = null;
 let pollingTimer = null;
+let adminToken = localStorage.getItem('tournament_admin_token') || '';
+
+const defaultNames = `أمانير
+حارِس
+حصين
+وهّاج
+SolGuard
+RayShield
+Sunova
+Solvex
+Panelix
+Sunora
+Solvanta
+Soliva
+Heliora
+Solnex
+سياد
+مرصدة`;
 
 function setLive(mode) {
-  els.liveBadge.className = 'live-badge' + (mode === 'live' ? '' : ' ' + mode);
-  els.liveText.textContent =
-    mode === 'live' ? 'مباشر' :
-    mode === 'closed' ? 'مغلق' :
-    mode === 'offline' ? 'تعذر الاتصال' :
-    'جارٍ الاتصال';
+  const badge = byId('liveBadge');
+  const text = byId('liveText');
+  badge.className = 'live-badge' + (mode === 'live' ? '' : ' ' + mode);
+  text.textContent = mode === 'live' ? 'مباشر' : mode === 'closed' ? 'مغلق' : mode === 'offline' ? 'تعذر الاتصال' : 'جارٍ الاتصال';
 }
 
-function setFeedback(message, type = 'info', options = {}) {
-  const { sticky = false } = options;
-  clearTimeout(feedbackTimer);
-  if (!message) {
-    els.feedback.hidden = true;
-    els.feedback.textContent = '';
-    return;
-  }
-  els.feedback.hidden = false;
-  els.feedback.className = 'feedback ' + type;
-  els.feedback.textContent = message;
-  if (!sticky) {
-    feedbackTimer = setTimeout(() => {
-      els.feedback.hidden = true;
-    }, 5500);
-  }
+function setFeedback(message, type = 'info', sticky = false) {
+  const el = byId('feedback');
+  if (!message) { el.hidden = true; el.textContent = ''; return; }
+  el.hidden = false; el.className = 'feedback ' + type; el.textContent = message;
+  if (!sticky) setTimeout(() => { el.hidden = true; }, 5000);
 }
 
 function errorText(err) {
-  const message = String(err && err.message ? err.message : err || '');
-  const code = err && err.code ? String(err.code) : '';
-  if (code === '23505' || /duplicate key|already exists/i.test(message)) {
-    return 'تم تسجيل صوتك مسبقًا من هذا المتصفح.';
-  }
-  if (/authentication_required/i.test(message)) {
-    return 'تعذر إنشاء جلسة تصويت مجهولة. تأكد من تفعيل Anonymous Sign-Ins في Supabase.';
-  }
-  if (/voting_closed/i.test(message)) {
-    return 'التصويت مغلق حاليًا.';
-  }
-  if (/invalid_choice_count/i.test(message)) {
-    return 'عدد الخيارات المحددة غير مسموح.';
-  }
-  if (/invalid_choices/i.test(message)) {
-    return 'أحد الخيارات غير صالح. حدّث الصفحة وحاول مجددًا.';
-  }
-  if (/anonymous.*(disabled|not enabled)|anonymous sign-?ins?.*(disabled|not enabled)/i.test(message)) {
-    return 'الدخول المجهول غير مفعّل. فعّل Anonymous Sign-Ins من إعدادات Supabase.';
-  }
-  if (/failed to fetch|network|load failed|fetch failed/i.test(message)) {
-    return 'تعذر الاتصال بالخادم. تحقق من الإنترنت وحاول مجددًا.';
-  }
-  if (/invalid api key|jwt|apikey/i.test(message)) {
-    return 'إعدادات الاتصال بقاعدة البيانات غير صحيحة.';
-  }
-  return 'حدث خطأ غير متوقع. حاول مرة أخرى.';
+  const m = String(err && err.message ? err.message : err || '');
+  if (/authentication_required/i.test(m)) return 'تعذر إنشاء جلسة تصويت. تأكد من تفعيل Anonymous Sign-Ins.';
+  if (/voting_closed/i.test(m)) return 'التصويت مغلق.';
+  if (/invalid_admin_token/i.test(m)) return 'رمز الإدارة غير صحيح.';
+  if (/round_not_finished/i.test(m)) return 'يجب إغلاق جميع المواجهات أولًا.';
+  if (/invalid_round/i.test(m)) return 'جولة غير صحيحة.';
+  if (/failed to fetch|network/i.test(m)) return 'تعذر الاتصال بالخادم.';
+  return 'حدث خطأ: ' + m;
 }
 
-function isDuplicateError(err) {
-  const message = String(err && err.message ? err.message : '');
-  return (err && String(err.code) === '23505') || /duplicate key|already exists/i.test(message);
+function roundName(round, matchupCount) {
+  if (matchupCount >= 8) return 'دور الـ' + (matchupCount * 2);
+  if (matchupCount === 4) return 'ربع النهائي';
+  if (matchupCount === 2) return 'نصف النهائي';
+  if (matchupCount === 1) return 'النهائي';
+  return 'الجولة ' + round;
 }
 
-function votedStorageKey() {
-  const version = poll && Number.isFinite(Number(poll.version)) ? Number(poll.version) : 1;
-  return VOTED_KEY + '_v' + version;
-}
-
-function hasLocalVote() {
-  try { return localStorage.getItem(votedStorageKey()) === '1'; } catch (e) { return false; }
-}
-
-function markLocalVote() {
-  try { localStorage.setItem(votedStorageKey(), '1'); } catch (e) {}
-}
-
-function updateLastUpdated() {
-  const time = new Intl.DateTimeFormat('ar-EG', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  }).format(new Date());
-  els.lastUpdated.textContent = 'آخر تحديث: ' + time;
-}
-
-function syncSelection() {
-  if (!poll) return;
-  const validIds = new Set((poll.choices || []).map((choice) => Number(choice.id)));
-  if (poll.already_voted) {
-    selected = new Set((poll.my_choices || []).map((choiceId) => Number(choiceId)));
-    markLocalVote();
-  } else {
-    selected = new Set([...selected].filter((choiceId) => validIds.has(choiceId)));
-  }
-}
-
-function render() {
-  const hasPoll = Boolean(poll);
-  els.loading.hidden = hasPoll || !loading;
-
-  if (!hasPoll) {
-    els.pollTitle.textContent = 'التصويت';
-    els.pollSubtitle.textContent = loading ? 'جارٍ الاتصال بالتصويت…' : 'تعذر الاتصال بالتصويت.';
-    els.statusPill.textContent = loading ? 'جارٍ التحميل…' : 'تعذر الاتصال';
-    els.statusPill.className = 'pill' + (loading ? '' : ' closed');
-    els.modePill.textContent = '—';
-    els.voterPill.textContent = '—';
-    els.totalVotes.textContent = '0';
-    els.choiceHint.textContent = loading ? 'جارٍ تحميل الخيارات…' : 'اضغط «تحديث النتائج» للمحاولة مرة أخرى.';
-    els.voteBtn.disabled = true;
-    els.voteBtn.textContent = 'سجّل صوتي';
-    els.refreshBtn.disabled = false;
-    els.choices.replaceChildren();
-    if (loading) setLive('connecting');
-    return;
-  }
-
-  const choices = Array.isArray(poll.choices) ? poll.choices : [];
-  const total = choices.reduce((sum, choice) => sum + Number(choice.votes || 0), 0);
-  const maxChoices = Math.max(1, Number(poll.max_choices || 1));
-  const myChoices = new Set((poll.my_choices || []).map((choiceId) => Number(choiceId)));
-  const alreadyVoted = Boolean(poll.already_voted);
-  const localVoted = hasLocalVote();
-  const voted = alreadyVoted || localVoted;
-  const isOpen = Boolean(poll.is_open);
-  const canVote = isOpen && !voted && !busy;
-  const selectedCount = selected.size;
-
-  document.title = (poll.title || 'التصويت') + ' — تصويت مباشر';
-  els.pollTitle.textContent = poll.title || 'التصويت';
-  els.pollSubtitle.textContent = isOpen
-    ? 'صوّت من جهازك وشاهد النتائج لحظة بلحظة.'
-    : 'التصويت مغلق. يمكنك مشاهدة النتائج النهائية.';
-
-  els.statusPill.textContent = !isOpen ? 'التصويت مغلق' : (voted ? 'تم تسجيل صوتك' : 'التصويت مفتوح');
-  els.statusPill.className = 'pill ' + (!isOpen ? 'closed' : (voted ? 'success' : 'live'));
-  els.modePill.textContent = maxChoices === 1
-    ? 'اختيار واحد لكل مصوّت'
-    : 'حتى ' + maxChoices + ' اختيارات لكل مصوّت';
-  els.voterPill.textContent = Number(poll.voter_count || 0) + ' مشارك';
-  els.totalVotes.textContent = String(total);
-  els.fineprint.textContent = maxChoices === 1
-    ? 'صوت واحد لكل متصفح. لا تمسح بيانات الموقع إذا كنت قد صوّت.'
-    : 'حتى ' + maxChoices + ' اختيارات لكل متصفح. لا تمسح بيانات الموقع إذا كنت قد صوّت.';
-  els.choiceHint.textContent = !isOpen
-    ? 'النتائج النهائية لهذا التصويت.'
-    : voted
-      ? 'تم تسجيل صوتك — هذه هي النتائج الحالية.'
-      : maxChoices === 1
-        ? 'اختر خيارًا واحدًا ثم اضغط «سجّل صوتي».'
-        : 'اختر حتى ' + maxChoices + ' خيارات ثم اضغط «سجّل صوتي».';
-
-  setLive(isOpen ? 'live' : 'closed');
-
-  const fragment = document.createDocumentFragment();
-  choices.forEach((choice) => {
-    const id = Number(choice.id);
-    const votes = Number(choice.votes || 0);
-    const percent = total > 0 ? Math.round((votes / total) * 100) : 0;
-    const isSelected = selected.has(id) || (alreadyVoted && myChoices.has(id));
-
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'choice'
-      + (maxChoices > 1 ? ' multi' : '')
-      + (isSelected ? ' selected' : '');
-    button.dataset.id = String(id);
-    button.disabled = !canVote;
-    button.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
-    button.setAttribute('aria-label', choice.label + ' — ' + votes + ' صوت — ' + percent + '%');
-
-    const top = document.createElement('span');
-    top.className = 'choice-top';
-
-    const mark = document.createElement('span');
-    mark.className = 'choice-mark';
-    mark.setAttribute('aria-hidden', 'true');
-
-    const label = document.createElement('span');
-    label.className = 'choice-label';
-    label.textContent = choice.label;
-
-    const stats = document.createElement('span');
-    stats.className = 'choice-stats';
-
-    const votesStrong = document.createElement('strong');
-    votesStrong.textContent = String(votes);
-    const votesWord = document.createElement('span');
-    votesWord.textContent = votes === 1 ? 'صوت' : 'أصوات';
-    const percentSpan = document.createElement('span');
-    percentSpan.className = 'pct';
-    percentSpan.textContent = percent + '%';
-    stats.append(votesStrong, votesWord, percentSpan);
-
-    if (alreadyVoted && myChoices.has(id)) {
-      const ownVote = document.createElement('span');
-      ownVote.className = 'own-vote';
-      ownVote.textContent = 'صوتك';
-      stats.append(ownVote);
-    }
-
-    const bar = document.createElement('span');
-    bar.className = 'bar';
-    bar.setAttribute('aria-hidden', 'true');
-    const fill = document.createElement('i');
-    fill.style.width = percent + '%';
-    bar.append(fill);
-
-    top.append(mark, label, stats);
-    button.append(top, bar);
-
-    if (canVote) {
-      button.addEventListener('click', () => toggleChoice(id));
-    }
-
-    fragment.append(button);
-  });
-  els.choices.replaceChildren(fragment);
-
-  if (!isOpen) {
-    els.voteBtn.textContent = 'التصويت مغلق';
-    els.voteBtn.disabled = true;
-  } else if (voted) {
-    els.voteBtn.textContent = 'تم تسجيل صوتك ✅';
-    els.voteBtn.disabled = true;
-  } else {
-    els.voteBtn.textContent = selectedCount > 0 ? 'سجّل صوتي (' + selectedCount + ')' : 'سجّل صوتي';
-    els.voteBtn.disabled = selectedCount < 1 || selectedCount > maxChoices || busy;
-  }
-  els.refreshBtn.disabled = busy;
-}
-
-function toggleChoice(choiceId) {
-  if (busy || !poll || !poll.is_open || poll.already_voted) return;
-  if (hasLocalVote()) return;
-
-  const maxChoices = Math.max(1, Number(poll.max_choices || 1));
-  if (maxChoices === 1) {
-    selected = new Set([choiceId]);
-  } else if (selected.has(choiceId)) {
-    selected.delete(choiceId);
-  } else if (selected.size >= maxChoices) {
-    setFeedback('يمكنك اختيار ' + maxChoices + ' كحد أقصى.', 'info');
-    return;
-  } else {
-    selected.add(choiceId);
-  }
-  setFeedback(null);
-  render();
-}
-
-async function loadState(options = {}) {
-  const { silent = false, clearFeedback = false } = options;
+async function loadState({ silent = false } = {}) {
   const seq = ++requestSeq;
-  if (clearFeedback) setFeedback(null);
-  if (!silent && !poll) {
-    loading = true;
-    render();
-  }
-
+  if (!silent && !state) { byId('loading').hidden = false; }
   try {
-    const { data, error } = await supabase.rpc('get_voting_state');
+    const { data, error } = await supabase.rpc('get_tournament_state');
     if (error) throw error;
     if (seq !== requestSeq) return null;
-    if (!data || typeof data !== 'object') throw new Error('empty_state');
-    poll = data;
-    loading = false;
-    syncSelection();
+    state = data;
+    byId('loading').hidden = true;
     render();
-    updateLastUpdated();
-    return poll;
+    setLive(state.status === 'finished' ? 'closed' : 'live');
+    return state;
   } catch (err) {
     if (seq !== requestSeq) return null;
-    loading = false;
-    console.error('get_voting_state failed:', err);
+    byId('loading').hidden = true;
     setLive('offline');
-    if (!silent) {
-      setFeedback(errorText(err), 'error', { sticky: true });
-      render();
-    } else {
-      els.lastUpdated.textContent = 'تعذر تحديث النتائج — ستتم إعادة المحاولة';
-    }
+    if (!silent) setFeedback(errorText(err), 'error', true);
     return null;
   }
 }
 
-async function castVote() {
-  if (busy || !poll) return;
-  const maxChoices = Math.max(1, Number(poll.max_choices || 1));
-  if (!poll.is_open || poll.already_voted || hasLocalVote()) return;
-
-  const choiceIds = [...selected].map(Number).sort((a, b) => a - b);
-  if (choiceIds.length < 1 || choiceIds.length > maxChoices) {
-    setFeedback(
-      maxChoices === 1 ? 'اختر خيارًا واحدًا أولًا.' : 'اختر بين 1 و' + maxChoices + ' خيارات.',
-      'info'
-    );
+function render() {
+  if (!state) {
+    byId('idleScreen').hidden = true; byId('roundBanner').hidden = true; byId('progressWrap').hidden = true; byId('championScreen').hidden = true; byId('participantsCard').hidden = true;
+    byId('matchups').replaceChildren();
     return;
   }
+  const status = state.status;
+  const matchups = Array.isArray(state.matchups) ? state.matchups : [];
+  const participants = Array.isArray(state.participants) ? state.participants : [];
+  const tallies = state.tallies || {};
+  const myVotes = state.my_votes || {};
+  const currentRound = state.current_round;
+  const currentMatchups = matchups.filter(m => m.round === currentRound);
+  const participantMap = new Map(participants.map(p => [p.id, p]));
 
+  byId('title').textContent = state.title || 'بطولة المواجهات';
+  byId('adminPanel').hidden = !adminToken;
+  if (adminToken && !byId('adminNames').value) byId('adminNames').value = defaultNames;
+
+  if (status === 'idle' || matchups.length === 0) {
+    byId('idleScreen').hidden = false;
+    byId('roundBanner').hidden = true;
+    byId('progressWrap').hidden = true;
+    byId('championScreen').hidden = true;
+    byId('matchups').replaceChildren();
+  } else if (status === 'finished') {
+    byId('idleScreen').hidden = true;
+    byId('roundBanner').hidden = true;
+    byId('progressWrap').hidden = true;
+    byId('championScreen').hidden = false;
+    const champ = participantMap.get(state.champion_id);
+    byId('championName').textContent = champ ? champ.name : '—';
+    byId('matchups').replaceChildren();
+  } else {
+    byId('idleScreen').hidden = true;
+    byId('championScreen').hidden = true;
+    byId('roundBanner').hidden = false;
+    byId('progressWrap').hidden = false;
+    const closed = currentMatchups.filter(m => m.status === 'closed').length;
+    byId('roundName').textContent = roundName(currentRound, currentMatchups.length);
+    byId('roundSub').textContent = 'الجولة ' + currentRound;
+    byId('roundProgress').textContent = closed + '/' + currentMatchups.length;
+    byId('progressBar').style.width = (currentMatchups.length ? (closed / currentMatchups.length * 100) : 0) + '%';
+
+    const frag = document.createDocumentFragment();
+    currentMatchups.forEach(m => {
+      const a = participantMap.get(m.a);
+      const b = m.b ? participantMap.get(m.b) : null;
+      const isBye = !m.b;
+      const talliesA = (tallies[String(m.id)] || {})[String(m.a)] || 0;
+      const talliesB = b ? ((tallies[String(m.id)] || {})[String(m.b)] || 0) : 0;
+      const total = talliesA + talliesB;
+      const pctA = total > 0 ? Math.round(talliesA / total * 100) : 0;
+      const pctB = total > 0 ? Math.round(talliesB / total * 100) : 0;
+      const myVote = myVotes[String(m.id)];
+      const voted = !!myVote;
+
+      const card = document.createElement('div');
+      card.className = 'card match';
+
+      const head = document.createElement('div');
+      head.className = 'match-head';
+      const title = document.createElement('span');
+      title.className = 'match-title';
+      title.textContent = 'المواجهة ' + m.slot;
+      const statusBadge = document.createElement('span');
+      statusBadge.className = 'match-status ' + m.status;
+      statusBadge.textContent = m.status === 'voting' ? 'تصويت مفتوح' : (m.status === 'closed' ? 'مغلقة' : 'قيد الانتظار');
+      head.append(title, statusBadge);
+      card.append(head);
+
+      if (isBye) {
+        const bye = document.createElement('div');
+        bye.style.cssText = 'text-align:center;padding:14px;color:var(--muted);';
+        bye.textContent = (a ? a.name : '—') + ' — تأهل تلقائي';
+        card.append(bye);
+      } else {
+        const sides = document.createElement('div');
+        sides.className = 'sides';
+        // side A
+        const sideA = document.createElement('div');
+        sideA.className = 'side' + (m.status === 'closed' && m.winner === m.a ? ' winner' : '');
+        const nameA = document.createElement('div'); nameA.className = 'side-name'; nameA.textContent = a ? a.name : '—';
+        const votesA = document.createElement('div'); votesA.className = 'side-votes'; votesA.innerHTML = '<strong>' + talliesA + '</strong> صوت · ' + pctA + '%';
+        const barA = document.createElement('div'); barA.className = 'bar'; const fillA = document.createElement('i'); fillA.style.width = pctA + '%'; barA.append(fillA);
+        sideA.append(nameA, votesA, barA);
+
+        const sideB = document.createElement('div');
+        sideB.className = 'side' + (m.status === 'closed' && m.winner === m.b ? ' winner' : '');
+        const nameB = document.createElement('div'); nameB.className = 'side-name'; nameB.textContent = b ? b.name : '—';
+        const votesB = document.createElement('div'); votesB.className = 'side-votes'; votesB.innerHTML = '<strong>' + talliesB + '</strong> صوت · ' + pctB + '%';
+        const barB = document.createElement('div'); barB.className = 'bar'; const fillB = document.createElement('i'); fillB.style.width = pctB + '%'; barB.append(fillB);
+        sideB.append(nameB, votesB, barB);
+
+        sides.append(sideA, sideB);
+        card.append(sides);
+
+        // vote actions
+        if (m.status === 'voting') {
+          const actions = document.createElement('div');
+          actions.className = 'vote-actions';
+          actions.style.marginTop = '12px';
+          if (voted) {
+            const note = document.createElement('span');
+            note.style.cssText = 'color:var(--success);font-weight:800;font-size:0.9rem;';
+            note.textContent = 'تم تسجيل صوتك ✅';
+            actions.append(note);
+          } else {
+            const btnA = document.createElement('button');
+            btnA.className = 'btn primary small'; btnA.textContent = 'صوّت: ' + (a ? a.name : '');
+            btnA.addEventListener('click', () => castVote(m.id, m.a));
+            const btnB = document.createElement('button');
+            btnB.className = 'btn primary small'; btnB.textContent = 'صوّت: ' + (b ? b.name : '');
+            btnB.addEventListener('click', () => castVote(m.id, m.b));
+            actions.append(btnA, btnB);
+          }
+          // admin controls
+          if (adminToken) {
+            const adminDiv = document.createElement('div');
+            adminDiv.className = 'vote-actions';
+            adminDiv.style.marginTop = '8px';
+            const closeA = document.createElement('button');
+            closeA.className = 'btn ghost small'; closeA.textContent = 'فوز ' + (a ? a.name : '');
+            closeA.addEventListener('click', () => adminClose(m.id, m.a));
+            const closeB = document.createElement('button');
+            closeB.className = 'btn ghost small'; closeB.textContent = 'فوز ' + (b ? b.name : '');
+            closeB.addEventListener('click', () => adminClose(m.id, m.b));
+            adminDiv.append(closeA, closeB);
+            card.append(adminDiv);
+          }
+          card.append(actions);
+        } else if (m.status === 'closed') {
+          const winner = participantMap.get(m.winner);
+          const note = document.createElement('div');
+          note.style.cssText = 'text-align:center;margin-top:10px;color:var(--accent);font-weight:800;';
+          note.textContent = winner ? 'الفائز: ' + winner.name : '';
+          card.append(note);
+          if (adminToken) {
+            const adminDiv = document.createElement('div');
+            adminDiv.className = 'vote-actions';
+            adminDiv.style.marginTop = '8px';
+            const reopen = document.createElement('button');
+            reopen.className = 'btn ghost small'; reopen.textContent = 'إعادة فتح التصويت';
+            reopen.addEventListener('click', () => adminReopen(m.id));
+            adminDiv.append(reopen);
+            card.append(adminDiv);
+          }
+        }
+      }
+      frag.append(card);
+    });
+    byId('matchups').replaceChildren(frag);
+  }
+
+  // participants
+  if (participants.length) {
+    byId('participantsCard').hidden = false;
+    const pfrag = document.createDocumentFragment();
+    participants.forEach(p => {
+      const chip = document.createElement('span');
+      chip.className = 'participant-chip' + (p.eliminated ? ' eliminated' : '') + (state.champion_id === p.id ? ' champion' : '');
+      chip.textContent = p.name;
+      pfrag.append(chip);
+    });
+    byId('participants').replaceChildren(pfrag);
+  } else {
+    byId('participantsCard').hidden = true;
+  }
+
+  // admin advance button visibility
+  if (adminToken && status === 'active' && currentMatchups.length && currentMatchups.every(m => m.status === 'closed')) {
+    byId('adminAdvanceBtn').hidden = false;
+  } else {
+    byId('adminAdvanceBtn').hidden = true;
+  }
+}
+
+async function castVote(matchupId, participantId) {
+  if (busy) return;
   busy = true;
-  setFeedback(null);
-  render();
-
   try {
-    const { data: sessionData } = await supabase.auth.getSession();
-    if (!sessionData || !sessionData.session) {
+    let { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
       const { data, error } = await supabase.auth.signInAnonymously();
       if (error) throw error;
-      if (!data || !data.session) throw new Error('anonymous_session_missing');
+      session = data.session;
     }
-
-    const { error } = await supabase.rpc('submit_voting_ballot', { choice_ids: choiceIds });
+    const { error } = await supabase.rpc('cast_tournament_vote', { p_matchup_id: matchupId, p_participant_id: participantId });
     if (error) throw error;
-
-    markLocalVote();
-    setFeedback('تم تسجيل صوتك بنجاح. شكرًا لمشاركتك!', 'success');
+    setFeedback('تم تسجيل صوتك ✅', 'success');
     await loadState({ silent: true });
   } catch (err) {
-    console.error('submit_voting_ballot failed:', err);
-    if (isDuplicateError(err)) {
-      markLocalVote();
-      setFeedback('تم تسجيل صوتك مسبقًا من هذا المتصفح.', 'info');
-      await loadState({ silent: true });
-    } else {
-      setFeedback(errorText(err), 'error', { sticky: true });
-    }
+    setFeedback(errorText(err), 'error', true);
   } finally {
     busy = false;
-    render();
+  }
+}
+
+async function adminReset() {
+  if (!adminToken || busy) return;
+  const names = byId('adminNames').value.split(/\n+/).map(s => s.trim()).filter(Boolean);
+  if (names.length < 2) { setFeedback('أدخل اسمين على الأقل.', 'info', true); return; }
+  busy = true;
+  try {
+    const { error } = await supabase.rpc('admin_reset_tournament', { p_admin_token: adminToken, p_names: names });
+    if (error) throw error;
+    setFeedback('تم بدء البطولة ✅', 'success');
+    await loadState({ silent: true });
+  } catch (err) {
+    if (String(err.message || '').includes('invalid_admin_token')) {
+      localStorage.removeItem('tournament_admin_token');
+      adminToken = '';
+      byId('adminPanel').hidden = true;
+    }
+    setFeedback(errorText(err), 'error', true);
+  } finally {
+    busy = false;
+  }
+}
+
+async function adminClose(matchupId, winnerId) {
+  if (!adminToken || busy) return;
+  busy = true;
+  try {
+    const { error } = await supabase.rpc('admin_close_matchup', { p_admin_token: adminToken, p_matchup_id: matchupId, p_winner_id: winnerId });
+    if (error) throw error;
+    setFeedback('تم إغلاق المواجهة ✅', 'success');
+    await loadState({ silent: true });
+  } catch (err) {
+    setFeedback(errorText(err), 'error', true);
+  } finally {
+    busy = false;
+  }
+}
+
+async function adminReopen(matchupId) {
+  if (!adminToken || busy) return;
+  busy = true;
+  try {
+    const { error } = await supabase.rpc('admin_reopen_matchup', { p_admin_token: adminToken, p_matchup_id: matchupId });
+    if (error) throw error;
+    setFeedback('تم إعادة فتح التصويت ✅', 'success');
+    await loadState({ silent: true });
+  } catch (err) {
+    setFeedback(errorText(err), 'error', true);
+  } finally {
+    busy = false;
+  }
+}
+
+async function adminAdvance() {
+  if (!adminToken || busy || !state) return;
+  busy = true;
+  try {
+    const { error } = await supabase.rpc('admin_advance_round', { p_admin_token: adminToken, p_round_number: state.current_round });
+    if (error) throw error;
+    setFeedback('تم الانتقال للجولة التالية ✅', 'success');
+    await loadState({ silent: true });
+  } catch (err) {
+    setFeedback(errorText(err), 'error', true);
+  } finally {
+    busy = false;
   }
 }
 
 function startPolling() {
   if (pollingTimer) clearInterval(pollingTimer);
   pollingTimer = setInterval(() => {
-    if (document.visibilityState === 'visible' && !busy) {
-      loadState({ silent: true });
-    }
+    if (document.visibilityState === 'visible' && !busy) loadState({ silent: true });
   }, 5000);
 }
 
-els.voteBtn.addEventListener('click', castVote);
-els.refreshBtn.addEventListener('click', () => loadState({ clearFeedback: true }));
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && !busy) {
-    loadState({ silent: true });
-  }
+byId('adminResetBtn').addEventListener('click', adminReset);
+byId('adminAdvanceBtn').addEventListener('click', adminAdvance);
+byId('adminExitBtn').addEventListener('click', () => {
+  localStorage.removeItem('tournament_admin_token');
+  adminToken = '';
+  byId('adminPanel').hidden = true;
+  setFeedback('تم الخروج من وضع الإدارة.', 'info');
+  render();
 });
-window.addEventListener('online', () => loadState({ silent: true }));
+byId('adminToggleBtn').addEventListener('click', () => {
+  const token = prompt('أدخل رمز الإدارة:');
+  if (token === null) return;
+  localStorage.setItem('tournament_admin_token', token);
+  adminToken = token;
+  byId('adminPanel').hidden = false;
+  render();
+  loadState({ silent: true });
+});
+byId('refreshBtn').addEventListener('click', () => loadState({ silent: false }));
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && !busy) loadState({ silent: true });
+});
 
 async function init() {
-  try {
-    await supabase.auth.getSession();
-  } catch (err) {
-    console.warn('auth session restore failed:', err);
-  }
+  try { await supabase.auth.getSession(); } catch (e) {}
   await loadState();
   startPolling();
 }
-
 init();
 </script>
 </body>
