@@ -28,9 +28,9 @@ npx serve .
 
 بعد تسجيل الدخول إلى Render وربط GitHub:
 
-1. اختر اسم الخدمة (أو اتركه `tournament-bracket`).
+1. اختر اسم الخدمة (أو اتركه `tournament-bracket-mrthnr`).
 2. اضغط **Apply** ثم انتظر انتهاء النشر.
-3. ستحصل على رابط عام مثل `https://tournament-bracket.onrender.com` جاهز للمشاركة.
+3. ستحصل على رابط عام مثل `https://tournament-bracket-mrthnr.onrender.com` جاهز للمشاركة.
 
 ## البنية
 

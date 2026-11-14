@@ -1,5 +1,5 @@
 services:
   - type: web
-    name: tournament-bracket
+    name: tournament-bracket-mrthnr
     runtime: static
     staticPublishPath: .
