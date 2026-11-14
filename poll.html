@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>التصويت — صوّت وشاهد النتائج مباشرة</title>
+<meta name="description" content="تصويت عربي مباشر: اختر من الخيارات، صوّت من جوالك أو لابتوبك، وشاهد النتائج تتحدث لحظة بلحظة. بدون إيميل وبدون تسجيل.">
+<meta name="theme-color" content="#081426">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🗳️%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="التصويت المباشر">
+<meta property="og:title" content="التصويت — صوّت وشاهد النتائج مباشرة">
+<meta property="og:description" content="اختر من الخيارات، صوّت من جهازك، وشاهد النتائج تتحدث لحظة بلحظة.">
+<meta property="og:url" content="https://mrthnr67.github.io/tournament-bracket/">
+<meta property="og:image" content="https://mrthnr67.github.io/tournament-bracket/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="التصويت المباشر — صوّت من جهازك وشاهد النتائج">
+<meta property="og:locale" content="ar_AR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="التصويت — صوّت وشاهد النتائج مباشرة">
+<meta name="twitter:description" content="اختر من الخيارات، صوّت من جهازك، وشاهد النتائج تتحدث لحظة بلحظة.">
+<meta name="twitter:image" content="https://mrthnr67.github.io/tournament-bracket/og.jpg">
+<style>
+  :root {
+    --bg-1: #081426;
+    --bg-2: #0e2340;
+    --bg-3: #133a5c;
+    --card: rgba(255, 255, 255, 0.065);
+    --card-2: rgba(255, 255, 255, 0.1);
+    --border: rgba(255, 255, 255, 0.13);
+    --text: #f7faff;
+    --muted: rgba(232, 241, 255, 0.67);
+    --accent: #ffd166;
+    --accent-ink: #17233f;
+    --teal: #7ee0c3;
+    --danger: #ff9b9b;
+    --success: #8ef0c9;
+    --radius: 22px;
+    --shadow: 0 24px 70px rgba(2, 9, 24, 0.42);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  [hidden] { display: none !important; }
+
+  body {
+    font-family: "Segoe UI", Tahoma, "Noto Kufi Arabic", "Noto Sans Arabic", sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+    color: var(--text);
+    background:
+      radial-gradient(1100px 620px at 90% -12%, rgba(255, 209, 102, 0.17), transparent 62%),
+      radial-gradient(900px 560px at -5% 18%, rgba(126, 224, 195, 0.13), transparent 58%),
+      linear-gradient(160deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
+    background-attachment: fixed;
+    padding: clamp(18px, 4vw, 34px) 16px 54px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .ambient {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: -1;
+  }
+  .ambient span {
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.22;
+    animation: drift 16s ease-in-out infinite alternate;
+  }
+  .ambient span:nth-child(1) { background: var(--accent); top: -80px; right: -40px; }
+  .ambient span:nth-child(2) { background: var(--teal); bottom: 8%; left: -100px; animation-delay: -6s; }
+  .ambient span:nth-child(3) { background: #6f9bff; top: 42%; right: 38%; width: 220px; height: 220px; animation-delay: -11s; }
+  @keyframes drift {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to { transform: translate3d(24px, -26px, 0) scale(1.12); }
+  }
+
+  .container { max-width: 880px; margin: 0 auto; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  /* ---------- header ---------- */
+  .site-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .brand { display: flex; align-items: center; gap: 15px; }
+  .brand-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+    font-size: 2rem;
+    background: linear-gradient(135deg, rgba(255, 209, 102, 0.3), rgba(255, 209, 102, 0.05));
+    border: 1px solid rgba(255, 209, 102, 0.36);
+    box-shadow: 0 10px 30px rgba(255, 209, 102, 0.14);
+    flex-shrink: 0;
+  }
+  .brand-copy h1 {
+    font-size: clamp(1.55rem, 3.4vw, 2.05rem);
+    line-height: 1.25;
+    letter-spacing: -0.2px;
+  }
+  .brand-copy p:not(.eyebrow) {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 3px;
+  }
+  .eyebrow {
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+    margin-bottom: 3px;
+  }
+
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 50px;
+    background: rgba(126, 224, 195, 0.1);
+    border: 1px solid rgba(126, 224, 195, 0.32);
+    color: var(--success);
+    font-size: 0.8rem;
+    font-weight: 800;
+    white-space: nowrap;
+    transition: background 0.25s, border-color 0.25s, color 0.25s;
+  }
+  .live-badge.closed {
+    background: rgba(255, 209, 102, 0.1);
+    border-color: rgba(255, 209, 102, 0.32);
+    color: var(--accent);
+  }
+  .live-badge.offline {
+    background: rgba(255, 155, 155, 0.1);
+    border-color: rgba(255, 155, 155, 0.32);
+    color: var(--danger);
+  }
+  .live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 0 4px rgba(126, 224, 195, 0.12);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  .live-badge.closed .live-dot,
+  .live-badge.offline .live-dot { animation: none; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.82); }
+  }
+
+  /* ---------- status pills ---------- */
+  .status-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
+  }
+  .pill.live { color: var(--success); background: rgba(126, 224, 195, 0.1); border-color: rgba(126, 224, 195, 0.25); }
+  .pill.success { color: var(--accent); background: rgba(255, 209, 102, 0.1); border-color: rgba(255, 209, 102, 0.28); }
+  .pill.closed { color: var(--accent); background: rgba(255, 209, 102, 0.09); border-color: rgba(255, 209, 102, 0.24); }
+
+  /* ---------- poll card ---------- */
+  .poll-card {
+    padding: clamp(20px, 4.2vw, 32px);
+    position: relative;
+    overflow: hidden;
+  }
+  .poll-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 209, 102, 0.7), rgba(126, 224, 195, 0.7), transparent);
+    opacity: 0.85;
+  }
+  .poll-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 20px;
+  }
+  .poll-head h2 { font-size: clamp(1.25rem, 3vw, 1.55rem); line-height: 1.3; }
+  .section-sub { color: var(--muted); font-size: 0.88rem; margin-top: 4px; }
+  .vote-total {
+    min-width: 92px;
+    text-align: center;
+    padding: 10px 16px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .vote-total strong {
+    display: block;
+    color: var(--accent);
+    font-size: 1.6rem;
+    line-height: 1.15;
+    font-variant-numeric: tabular-nums;
+  }
+  .vote-total span { color: var(--muted); font-size: 0.72rem; }
+
+  .choices { display: grid; gap: 10px; }
+  .choice {
+    position: relative;
+    display: block;
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    background: rgba(255, 255, 255, 0.045);
+    color: var(--text);
+    font-family: inherit;
+    text-align: right;
+    padding: 15px 16px 13px;
+    cursor: pointer;
+    transition: transform 0.15s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  }
+  .choice:hover:not(:disabled) {
+    transform: translateY(-1px);
+    border-color: rgba(255, 209, 102, 0.45);
+    background: rgba(255, 255, 255, 0.075);
+  }
+  .choice:focus-visible {
+    outline: 3px solid rgba(255, 209, 102, 0.45);
+    outline-offset: 2px;
+  }
+  .choice.selected {
+    border-color: rgba(255, 209, 102, 0.85);
+    background: linear-gradient(135deg, rgba(255, 209, 102, 0.16), rgba(255, 209, 102, 0.045));
+    box-shadow: 0 0 0 1px rgba(255, 209, 102, 0.2), 0 12px 30px rgba(2, 9, 24, 0.2);
+  }
+  .choice:disabled { cursor: default; }
+  .choice:disabled:not(.selected) { opacity: 0.78; }
+
+  .choice-top {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+  }
+  .choice-mark {
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.28);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    transition: background 0.18s, border-color 0.18s, box-shadow 0.18s;
+  }
+  .choice.multi .choice-mark { border-radius: 7px; }
+  .choice.selected .choice-mark {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(255, 209, 102, 0.12);
+  }
+  .choice-mark::after {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent-ink);
+    transform: scale(0);
+    transition: transform 0.16s;
+  }
+  .choice.multi .choice-mark::after { border-radius: 2px; }
+  .choice.selected .choice-mark::after { transform: scale(1); }
+
+  .choice-label {
+    flex: 1;
+    min-width: 0;
+    font-weight: 750;
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+  }
+  .choice-stats {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .choice-stats strong {
+    color: var(--text);
+    font-size: 0.98rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .choice.selected .choice-stats strong { color: var(--accent); }
+  .choice-stats .pct { color: var(--muted); }
+  .own-vote {
+    color: var(--accent);
+    background: rgba(255, 209, 102, 0.13);
+    border: 1px solid rgba(255, 209, 102, 0.26);
+    border-radius: 50px;
+    padding: 1px 7px;
+    font-size: 0.68rem;
+    font-weight: 800;
+  }
+
+  .bar {
+    display: block;
+    height: 7px;
+    margin-top: 11px;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.085);
+    overflow: hidden;
+  }
+  .bar i {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--teal), var(--accent));
+    transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .choice.selected .bar i { background: linear-gradient(90deg, var(--accent), #ffe9a8); }
+
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 160px;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .spinner {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.14);
+    border-top-color: var(--accent);
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .feedback {
+    margin-top: 15px;
+    padding: 11px 14px;
+    border-radius: 13px;
+    font-size: 0.87rem;
+    line-height: 1.55;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .feedback.success {
+    background: rgba(126, 224, 195, 0.1);
+    border-color: rgba(126, 224, 195, 0.28);
+    color: var(--success);
+  }
+  .feedback.error {
+    background: rgba(255, 155, 155, 0.1);
+    border-color: rgba(255, 155, 155, 0.28);
+    color: var(--danger);
+  }
+  .feedback.info {
+    background: rgba(255, 209, 102, 0.08);
+    border-color: rgba(255, 209, 102, 0.24);
+    color: var(--accent);
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 12px 22px;
+    font-family: inherit;
+    font-size: 0.96rem;
+    font-weight: 800;
+    cursor: pointer;
+    background: var(--card-2);
+    color: var(--text);
+    transition: transform 0.15s, filter 0.2s, background 0.2s, opacity 0.2s;
+  }
+  .btn:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.07); }
+  .btn:active:not(:disabled) { transform: translateY(0); }
+  .btn:focus-visible { outline: 3px solid rgba(255, 209, 102, 0.45); outline-offset: 2px; }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn.primary {
+    background: linear-gradient(135deg, #ffe08a, var(--accent));
+    color: var(--accent-ink);
+    border-color: transparent;
+    box-shadow: 0 12px 28px rgba(255, 209, 102, 0.2);
+  }
+  .btn.primary:disabled { box-shadow: none; }
+  .btn.big { padding: 14px 30px; flex: 1 1 190px; }
+  .btn.ghost { background: rgba(255, 255, 255, 0.06); }
+
+  .poll-foot {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .fineprint, .updated {
+    color: var(--muted);
+    font-size: 0.75rem;
+    line-height: 1.55;
+  }
+  .updated { text-align: left; font-variant-numeric: tabular-nums; }
+
+  .info-card {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    padding: 20px 22px;
+    margin-top: 18px;
+  }
+  .info-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    background: rgba(126, 224, 195, 0.1);
+    border: 1px solid rgba(126, 224, 195, 0.24);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .info-card h2 { font-size: 1rem; margin-bottom: 3px; }
+  .info-card p { color: var(--muted); font-size: 0.86rem; }
+
+  .site-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 24px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    flex-wrap: wrap;
+  }
+  .site-foot a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 209, 102, 0.35);
+    padding-bottom: 1px;
+  }
+  .site-foot a:hover { border-bottom-color: var(--accent); }
+
+  @media (max-width: 560px) {
+    .brand-icon { width: 54px; height: 54px; border-radius: 17px; font-size: 1.65rem; }
+    .site-head { align-items: center; }
+    .live-badge { padding: 7px 12px; font-size: 0.75rem; }
+    .poll-head { align-items: center; }
+    .vote-total { min-width: 78px; padding: 8px 12px; }
+    .vote-total strong { font-size: 1.35rem; }
+    .choice { padding: 13px 14px 12px; }
+    .choice-label { font-size: 0.95rem; }
+    .choice-stats { gap: 4px; font-size: 0.72rem; }
+    .choice-stats strong { font-size: 0.9rem; }
+    .actions { flex-direction: column-reverse; align-items: stretch; }
+    .btn.big { width: 100%; }
+    .btn.ghost { width: 100%; }
+    .poll-foot { flex-direction: column; }
+    .updated { text-align: right; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="ambient" aria-hidden="true"><span></span><span></span><span></span></div>
+
+<main class="container">
+  <header class="site-head">
+    <div class="brand">
+      <div class="brand-icon" aria-hidden="true">🗳️</div>
+      <div class="brand-copy">
+        <p class="eyebrow">تصويت مباشر</p>
+        <h1 id="pollTitle">التصويت</h1>
+        <p id="pollSubtitle">صوّت من جهازك وشاهد النتائج لحظة بلحظة.</p>
+      </div>
+    </div>
+    <div class="live-badge" id="liveBadge" aria-live="polite">
+      <span class="live-dot" aria-hidden="true"></span>
+      <span id="liveText">جارٍ الاتصال</span>
+    </div>
+  </header>
+
+  <div class="status-strip" aria-live="polite">
+    <span class="pill" id="statusPill">جارٍ التحميل…</span>
+    <span class="pill" id="modePill">—</span>
+    <span class="pill" id="voterPill">—</span>
+  </div>
+
+  <section class="card poll-card" aria-labelledby="pollHeading">
+    <div class="poll-head">
+      <div>
+        <p class="eyebrow">صوّت الآن</p>
+        <h2 id="pollHeading">اختر من الخيارات</h2>
+        <p class="section-sub" id="choiceHint">جارٍ تحميل الخيارات…</p>
+      </div>
+      <div class="vote-total" aria-label="إجمالي الأصوات">
+        <strong id="totalVotes">0</strong>
+        <span>صوت</span>
+      </div>
+    </div>
+
+    <div id="loading" class="loading" role="status">
+      <span class="spinner" aria-hidden="true"></span>
+      <span>جارٍ تحميل التصويت…</span>
+    </div>
+
+    <div id="choices" class="choices" role="group" aria-label="خيارات التصويت"></div>
+    <div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+
+    <div class="actions">
+      <button id="voteBtn" class="btn primary big" type="button" disabled>سجّل صوتي</button>
+      <button id="refreshBtn" class="btn ghost" type="button">تحديث النتائج</button>
+    </div>
+
+    <div class="poll-foot">
+      <p class="fineprint" id="fineprint">صوت واحد لكل متصفح. لا تمسح بيانات الموقع إذا كنت قد صوّت.</p>
+      <p class="updated" id="lastUpdated" aria-live="off"></p>
+    </div>
+  </section>
+
+  <section class="card info-card" aria-labelledby="howHeading">
+    <div class="info-icon" aria-hidden="true">💡</div>
+    <div>
+      <h2 id="howHeading">كيف يعمل؟</h2>
+      <p>افتح الرابط من جوالك أو لابتوبك، اختر الخيار المناسب، واضغط «سجّل صوتي». النتائج تتحدث تلقائيًا عند وصول أصوات جديدة.</p>
+    </div>
+  </section>
+
+  <footer class="site-foot">
+    <span>تصويت مباشر — بدون إيميل أو تسجيل.</span>
+    <a href="./tournament.html">هل تريد بطولة خروج مغلوب؟ جرّب صفحة البطولة</a>
+  </footer>
+</main>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+const SUPABASE_URL = 'https://tgrrpgrnctgpgjftlnti.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_UGrzTHYA9z-b9OWbjacS7A_W80nRKK_';
+const VOTED_KEY = 'voting_ballot_submitted_tgrrpgrnctgpgjftlnti';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: false
+  }
+});
+
+const byId = (id) => document.getElementById(id);
+const els = {
+  pollTitle: byId('pollTitle'),
+  pollSubtitle: byId('pollSubtitle'),
+  liveBadge: byId('liveBadge'),
+  liveText: byId('liveText'),
+  statusPill: byId('statusPill'),
+  modePill: byId('modePill'),
+  voterPill: byId('voterPill'),
+  pollHeading: byId('pollHeading'),
+  choiceHint: byId('choiceHint'),
+  totalVotes: byId('totalVotes'),
+  loading: byId('loading'),
+  choices: byId('choices'),
+  feedback: byId('feedback'),
+  voteBtn: byId('voteBtn'),
+  refreshBtn: byId('refreshBtn'),
+  fineprint: byId('fineprint'),
+  lastUpdated: byId('lastUpdated')
+};
+
+let poll = null;
+let selected = new Set();
+let busy = false;
+let loading = true;
+let requestSeq = 0;
+let feedbackTimer = null;
+let pollingTimer = null;
+
+function setLive(mode) {
+  els.liveBadge.className = 'live-badge' + (mode === 'live' ? '' : ' ' + mode);
+  els.liveText.textContent =
+    mode === 'live' ? 'مباشر' :
+    mode === 'closed' ? 'مغلق' :
+    mode === 'offline' ? 'تعذر الاتصال' :
+    'جارٍ الاتصال';
+}
+
+function setFeedback(message, type = 'info', options = {}) {
+  const { sticky = false } = options;
+  clearTimeout(feedbackTimer);
+  if (!message) {
+    els.feedback.hidden = true;
+    els.feedback.textContent = '';
+    return;
+  }
+  els.feedback.hidden = false;
+  els.feedback.className = 'feedback ' + type;
+  els.feedback.textContent = message;
+  if (!sticky) {
+    feedbackTimer = setTimeout(() => {
+      els.feedback.hidden = true;
+    }, 5500);
+  }
+}
+
+function errorText(err) {
+  const message = String(err && err.message ? err.message : err || '');
+  const code = err && err.code ? String(err.code) : '';
+  if (code === '23505' || /duplicate key|already exists/i.test(message)) {
+    return 'تم تسجيل صوتك مسبقًا من هذا المتصفح.';
+  }
+  if (/authentication_required/i.test(message)) {
+    return 'تعذر إنشاء جلسة تصويت مجهولة. تأكد من تفعيل Anonymous Sign-Ins في Supabase.';
+  }
+  if (/voting_closed/i.test(message)) {
+    return 'التصويت مغلق حاليًا.';
+  }
+  if (/invalid_choice_count/i.test(message)) {
+    return 'عدد الخيارات المحددة غير مسموح.';
+  }
+  if (/invalid_choices/i.test(message)) {
+    return 'أحد الخيارات غير صالح. حدّث الصفحة وحاول مجددًا.';
+  }
+  if (/anonymous.*(disabled|not enabled)|anonymous sign-?ins?.*(disabled|not enabled)/i.test(message)) {
+    return 'الدخول المجهول غير مفعّل. فعّل Anonymous Sign-Ins من إعدادات Supabase.';
+  }
+  if (/failed to fetch|network|load failed|fetch failed/i.test(message)) {
+    return 'تعذر الاتصال بالخادم. تحقق من الإنترنت وحاول مجددًا.';
+  }
+  if (/invalid api key|jwt|apikey/i.test(message)) {
+    return 'إعدادات الاتصال بقاعدة البيانات غير صحيحة.';
+  }
+  return 'حدث خطأ غير متوقع. حاول مرة أخرى.';
+}
+
+function isDuplicateError(err) {
+  const message = String(err && err.message ? err.message : '');
+  return (err && String(err.code) === '23505') || /duplicate key|already exists/i.test(message);
+}
+
+function votedStorageKey() {
+  const version = poll && Number.isFinite(Number(poll.version)) ? Number(poll.version) : 1;
+  return VOTED_KEY + '_v' + version;
+}
+
+function hasLocalVote() {
+  try { return localStorage.getItem(votedStorageKey()) === '1'; } catch (e) { return false; }
+}
+
+function markLocalVote() {
+  try { localStorage.setItem(votedStorageKey(), '1'); } catch (e) {}
+}
+
+function updateLastUpdated() {
+  const time = new Intl.DateTimeFormat('ar-EG', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  }).format(new Date());
+  els.lastUpdated.textContent = 'آخر تحديث: ' + time;
+}
+
+function syncSelection() {
+  if (!poll) return;
+  const validIds = new Set((poll.choices || []).map((choice) => Number(choice.id)));
+  if (poll.already_voted) {
+    selected = new Set((poll.my_choices || []).map((choiceId) => Number(choiceId)));
+    markLocalVote();
+  } else {
+    selected = new Set([...selected].filter((choiceId) => validIds.has(choiceId)));
+  }
+}
+
+function render() {
+  const hasPoll = Boolean(poll);
+  els.loading.hidden = hasPoll || !loading;
+
+  if (!hasPoll) {
+    els.pollTitle.textContent = 'التصويت';
+    els.pollSubtitle.textContent = loading ? 'جارٍ الاتصال بالتصويت…' : 'تعذر الاتصال بالتصويت.';
+    els.statusPill.textContent = loading ? 'جارٍ التحميل…' : 'تعذر الاتصال';
+    els.statusPill.className = 'pill' + (loading ? '' : ' closed');
+    els.modePill.textContent = '—';
+    els.voterPill.textContent = '—';
+    els.totalVotes.textContent = '0';
+    els.choiceHint.textContent = loading ? 'جارٍ تحميل الخيارات…' : 'اضغط «تحديث النتائج» للمحاولة مرة أخرى.';
+    els.voteBtn.disabled = true;
+    els.voteBtn.textContent = 'سجّل صوتي';
+    els.refreshBtn.disabled = false;
+    els.choices.replaceChildren();
+    if (loading) setLive('connecting');
+    return;
+  }
+
+  const choices = Array.isArray(poll.choices) ? poll.choices : [];
+  const total = choices.reduce((sum, choice) => sum + Number(choice.votes || 0), 0);
+  const maxChoices = Math.max(1, Number(poll.max_choices || 1));
+  const myChoices = new Set((poll.my_choices || []).map((choiceId) => Number(choiceId)));
+  const alreadyVoted = Boolean(poll.already_voted);
+  const localVoted = hasLocalVote();
+  const voted = alreadyVoted || localVoted;
+  const isOpen = Boolean(poll.is_open);
+  const canVote = isOpen && !voted && !busy;
+  const selectedCount = selected.size;
+
+  document.title = (poll.title || 'التصويت') + ' — تصويت مباشر';
+  els.pollTitle.textContent = poll.title || 'التصويت';
+  els.pollSubtitle.textContent = isOpen
+    ? 'صوّت من جهازك وشاهد النتائج لحظة بلحظة.'
+    : 'التصويت مغلق. يمكنك مشاهدة النتائج النهائية.';
+
+  els.statusPill.textContent = !isOpen ? 'التصويت مغلق' : (voted ? 'تم تسجيل صوتك' : 'التصويت مفتوح');
+  els.statusPill.className = 'pill ' + (!isOpen ? 'closed' : (voted ? 'success' : 'live'));
+  els.modePill.textContent = maxChoices === 1
+    ? 'اختيار واحد لكل مصوّت'
+    : 'حتى ' + maxChoices + ' اختيارات لكل مصوّت';
+  els.voterPill.textContent = Number(poll.voter_count || 0) + ' مشارك';
+  els.totalVotes.textContent = String(total);
+  els.fineprint.textContent = maxChoices === 1
+    ? 'صوت واحد لكل متصفح. لا تمسح بيانات الموقع إذا كنت قد صوّت.'
+    : 'حتى ' + maxChoices + ' اختيارات لكل متصفح. لا تمسح بيانات الموقع إذا كنت قد صوّت.';
+  els.choiceHint.textContent = !isOpen
+    ? 'النتائج النهائية لهذا التصويت.'
+    : voted
+      ? 'تم تسجيل صوتك — هذه هي النتائج الحالية.'
+      : maxChoices === 1
+        ? 'اختر خيارًا واحدًا ثم اضغط «سجّل صوتي».'
+        : 'اختر حتى ' + maxChoices + ' خيارات ثم اضغط «سجّل صوتي».';
+
+  setLive(isOpen ? 'live' : 'closed');
+
+  const fragment = document.createDocumentFragment();
+  choices.forEach((choice) => {
+    const id = Number(choice.id);
+    const votes = Number(choice.votes || 0);
+    const percent = total > 0 ? Math.round((votes / total) * 100) : 0;
+    const isSelected = selected.has(id) || (alreadyVoted && myChoices.has(id));
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'choice'
+      + (maxChoices > 1 ? ' multi' : '')
+      + (isSelected ? ' selected' : '');
+    button.dataset.id = String(id);
+    button.disabled = !canVote;
+    button.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    button.setAttribute('aria-label', choice.label + ' — ' + votes + ' صوت — ' + percent + '%');
+
+    const top = document.createElement('span');
+    top.className = 'choice-top';
+
+    const mark = document.createElement('span');
+    mark.className = 'choice-mark';
+    mark.setAttribute('aria-hidden', 'true');
+
+    const label = document.createElement('span');
+    label.className = 'choice-label';
+    label.textContent = choice.label;
+
+    const stats = document.createElement('span');
+    stats.className = 'choice-stats';
+
+    const votesStrong = document.createElement('strong');
+    votesStrong.textContent = String(votes);
+    const votesWord = document.createElement('span');
+    votesWord.textContent = votes === 1 ? 'صوت' : 'أصوات';
+    const percentSpan = document.createElement('span');
+    percentSpan.className = 'pct';
+    percentSpan.textContent = percent + '%';
+    stats.append(votesStrong, votesWord, percentSpan);
+
+    if (alreadyVoted && myChoices.has(id)) {
+      const ownVote = document.createElement('span');
+      ownVote.className = 'own-vote';
+      ownVote.textContent = 'صوتك';
+      stats.append(ownVote);
+    }
+
+    const bar = document.createElement('span');
+    bar.className = 'bar';
+    bar.setAttribute('aria-hidden', 'true');
+    const fill = document.createElement('i');
+    fill.style.width = percent + '%';
+    bar.append(fill);
+
+    top.append(mark, label, stats);
+    button.append(top, bar);
+
+    if (canVote) {
+      button.addEventListener('click', () => toggleChoice(id));
+    }
+
+    fragment.append(button);
+  });
+  els.choices.replaceChildren(fragment);
+
+  if (!isOpen) {
+    els.voteBtn.textContent = 'التصويت مغلق';
+    els.voteBtn.disabled = true;
+  } else if (voted) {
+    els.voteBtn.textContent = 'تم تسجيل صوتك ✅';
+    els.voteBtn.disabled = true;
+  } else {
+    els.voteBtn.textContent = selectedCount > 0 ? 'سجّل صوتي (' + selectedCount + ')' : 'سجّل صوتي';
+    els.voteBtn.disabled = selectedCount < 1 || selectedCount > maxChoices || busy;
+  }
+  els.refreshBtn.disabled = busy;
+}
+
+function toggleChoice(choiceId) {
+  if (busy || !poll || !poll.is_open || poll.already_voted) return;
+  if (hasLocalVote()) return;
+
+  const maxChoices = Math.max(1, Number(poll.max_choices || 1));
+  if (maxChoices === 1) {
+    selected = new Set([choiceId]);
+  } else if (selected.has(choiceId)) {
+    selected.delete(choiceId);
+  } else if (selected.size >= maxChoices) {
+    setFeedback('يمكنك اختيار ' + maxChoices + ' كحد أقصى.', 'info');
+    return;
+  } else {
+    selected.add(choiceId);
+  }
+  setFeedback(null);
+  render();
+}
+
+async function loadState(options = {}) {
+  const { silent = false, clearFeedback = false } = options;
+  const seq = ++requestSeq;
+  if (clearFeedback) setFeedback(null);
+  if (!silent && !poll) {
+    loading = true;
+    render();
+  }
+
+  try {
+    const { data, error } = await supabase.rpc('get_voting_state');
+    if (error) throw error;
+    if (seq !== requestSeq) return null;
+    if (!data || typeof data !== 'object') throw new Error('empty_state');
+    poll = data;
+    loading = false;
+    syncSelection();
+    render();
+    updateLastUpdated();
+    return poll;
+  } catch (err) {
+    if (seq !== requestSeq) return null;
+    loading = false;
+    console.error('get_voting_state failed:', err);
+    setLive('offline');
+    if (!silent) {
+      setFeedback(errorText(err), 'error', { sticky: true });
+      render();
+    } else {
+      els.lastUpdated.textContent = 'تعذر تحديث النتائج — ستتم إعادة المحاولة';
+    }
+    return null;
+  }
+}
+
+async function castVote() {
+  if (busy || !poll) return;
+  const maxChoices = Math.max(1, Number(poll.max_choices || 1));
+  if (!poll.is_open || poll.already_voted || hasLocalVote()) return;
+
+  const choiceIds = [...selected].map(Number).sort((a, b) => a - b);
+  if (choiceIds.length < 1 || choiceIds.length > maxChoices) {
+    setFeedback(
+      maxChoices === 1 ? 'اختر خيارًا واحدًا أولًا.' : 'اختر بين 1 و' + maxChoices + ' خيارات.',
+      'info'
+    );
+    return;
+  }
+
+  busy = true;
+  setFeedback(null);
+  render();
+
+  try {
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (!sessionData || !sessionData.session) {
+      const { data, error } = await supabase.auth.signInAnonymously();
+      if (error) throw error;
+      if (!data || !data.session) throw new Error('anonymous_session_missing');
+    }
+
+    const { error } = await supabase.rpc('submit_voting_ballot', { choice_ids: choiceIds });
+    if (error) throw error;
+
+    markLocalVote();
+    setFeedback('تم تسجيل صوتك بنجاح. شكرًا لمشاركتك!', 'success');
+    await loadState({ silent: true });
+  } catch (err) {
+    console.error('submit_voting_ballot failed:', err);
+    if (isDuplicateError(err)) {
+      markLocalVote();
+      setFeedback('تم تسجيل صوتك مسبقًا من هذا المتصفح.', 'info');
+      await loadState({ silent: true });
+    } else {
+      setFeedback(errorText(err), 'error', { sticky: true });
+    }
+  } finally {
+    busy = false;
+    render();
+  }
+}
+
+function startPolling() {
+  if (pollingTimer) clearInterval(pollingTimer);
+  pollingTimer = setInterval(() => {
+    if (document.visibilityState === 'visible' && !busy) {
+      loadState({ silent: true });
+    }
+  }, 5000);
+}
+
+els.voteBtn.addEventListener('click', castVote);
+els.refreshBtn.addEventListener('click', () => loadState({ clearFeedback: true }));
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && !busy) {
+    loadState({ silent: true });
+  }
+});
+window.addEventListener('online', () => loadState({ silent: true }));
+
+async function init() {
+  try {
+    await supabase.auth.getSession();
+  } catch (err) {
+    console.warn('auth session restore failed:', err);
+  }
+  await loadState();
+  startPolling();
+}
+
+init();
+</script>
+</body>
+</html>
