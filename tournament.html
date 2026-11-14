@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بطولة المواجهات — تصفيات بالأصوات</title>
+<style>
+  :root {
+    --bg-1: #0b1530;
+    --bg-2: #132a54;
+    --bg-3: #1e3c72;
+    --card: rgba(255, 255, 255, 0.07);
+    --card-2: rgba(255, 255, 255, 0.11);
+    --border: rgba(255, 255, 255, 0.14);
+    --text: #f4f7ff;
+    --muted: rgba(235, 242, 255, 0.68);
+    --accent: #ffd166;
+    --accent-ink: #17233f;
+    --teal: #7ee0c3;
+    --danger: #ff8b8b;
+    --radius: 20px;
+    --shadow: 0 18px 50px rgba(3, 10, 28, 0.35);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Segoe UI", Tahoma, "Noto Kufi Arabic", sans-serif;
+    min-height: 100vh;
+    color: var(--text);
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(255, 209, 102, 0.16), transparent 60%),
+      radial-gradient(900px 500px at 0% 10%, rgba(126, 224, 195, 0.12), transparent 55%),
+      linear-gradient(160deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
+    background-attachment: fixed;
+    padding: 26px 16px 60px;
+    line-height: 1.55;
+  }
+
+  .container { max-width: 980px; margin: 0 auto; }
+  [hidden] { display: none !important; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  /* ---------- header ---------- */
+  .site-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .brand { display: flex; align-items: center; gap: 13px; }
+  .brand-icon {
+    width: 52px; height: 52px; border-radius: 16px;
+    display: grid; place-items: center; font-size: 1.6rem;
+    background: linear-gradient(135deg, rgba(255, 209, 102, 0.28), rgba(255, 209, 102, 0.06));
+    border: 1px solid rgba(255, 209, 102, 0.35);
+    box-shadow: 0 8px 24px rgba(255, 209, 102, 0.12);
+    flex-shrink: 0;
+  }
+  .site-head h1 { font-size: 1.55rem; line-height: 1.3; }
+  .site-head p { color: var(--muted); font-size: 0.85rem; }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 12px 22px;
+    font-family: inherit;
+    font-size: 0.98rem;
+    font-weight: 700;
+    cursor: pointer;
+    background: var(--card-2);
+    color: var(--text);
+    transition: transform 0.15s, filter 0.2s, background 0.2s;
+  }
+  .btn:hover { transform: translateY(-2px); filter: brightness(1.07); }
+  .btn:active { transform: translateY(0); }
+  .btn.primary {
+    background: linear-gradient(135deg, #ffe08a, var(--accent));
+    color: var(--accent-ink);
+    border-color: transparent;
+    box-shadow: 0 10px 24px rgba(255, 209, 102, 0.22);
+  }
+  .btn.ghost { background: rgba(255, 255, 255, 0.06); }
+  .btn.small { padding: 9px 16px; font-size: 0.85rem; }
+  .btn.big { padding: 15px 34px; font-size: 1.05rem; }
+
+  /* ---------- setup ---------- */
+  .setup { padding: 24px; }
+  .setup h2 { font-size: 1.25rem; margin-bottom: 4px; }
+  .section-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 16px; }
+
+  .setup textarea {
+    width: 100%;
+    min-height: 230px;
+    resize: vertical;
+    background: rgba(6, 17, 40, 0.45);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    font-family: inherit;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    text-align: right;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .setup textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.15);
+  }
+  .setup textarea::placeholder { color: rgba(235, 242, 255, 0.34); }
+
+  .setup-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+  .setup-meta .dot {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--muted); flex-shrink: 0;
+  }
+
+  .setup-error {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    color: var(--danger);
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.25);
+    font-size: 0.88rem;
+  }
+
+  .setup-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    margin-top: 18px;
+  }
+
+  .how { margin-top: 18px; padding: 20px 22px; }
+  .how h3 { font-size: 1rem; margin-bottom: 10px; }
+  .how ol {
+    padding-inline-start: 20px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .how li::marker { color: var(--accent); font-weight: 700; }
+
+  /* ---------- tournament header ---------- */
+  .round-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 22px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .eyebrow {
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .round-banner h2 { font-size: 1.5rem; margin: 2px 0 4px; }
+  .round-banner p:not(.eyebrow) { color: var(--muted); font-size: 0.9rem; }
+
+  .round-counter {
+    text-align: center;
+    min-width: 96px;
+    padding: 10px 14px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
+  }
+  .round-counter strong {
+    display: block;
+    color: var(--accent);
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+  .round-counter span { font-size: 0.72rem; color: var(--muted); }
+
+  .progress {
+    height: 8px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .progress i {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 50px;
+    background: linear-gradient(90deg, var(--teal), var(--accent));
+    transition: width 0.45s ease;
+  }
+
+  /* ---------- byes ---------- */
+  .byes { padding: 16px 18px; margin-bottom: 18px; }
+  .byes-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .pill {
+    font-size: 0.78rem;
+    padding: 2px 10px;
+    border-radius: 50px;
+    color: var(--accent);
+    background: rgba(255, 209, 102, 0.15);
+    border: 1px solid rgba(255, 209, 102, 0.3);
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-size: 0.88rem;
+    padding: 6px 12px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .hint { margin-top: 10px; font-size: 0.8rem; color: var(--muted); }
+
+  /* ---------- matches ---------- */
+  .matches {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 18px;
+  }
+
+  .match {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 18px;
+    overflow: hidden;
+    animation: rise 0.35s ease both;
+  }
+  .match::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0.85;
+  }
+  .match.is-decided::before {
+    background: linear-gradient(90deg, var(--teal), transparent);
+  }
+  .match-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .status {
+    padding: 3px 10px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    white-space: nowrap;
+  }
+  .status.done { color: var(--teal); background: rgba(126, 224, 195, 0.12); }
+
+  .contender {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: border-color 0.25s, background 0.25s, opacity 0.25s;
+  }
+  .contender-name {
+    flex: 1;
+    min-width: 0;
+    font-weight: 700;
+    font-size: 1.05rem;
+    overflow-wrap: anywhere;
+  }
+  .contender.winner {
+    border-color: rgba(255, 209, 102, 0.65);
+    background: rgba(255, 209, 102, 0.12);
+    box-shadow: 0 0 0 1px rgba(255, 209, 102, 0.18);
+  }
+  .contender.loser { opacity: 0.42; }
+
+  .win-badge {
+    color: var(--accent);
+    font-size: 0.76rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .vote-box { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .vote-box input {
+    width: 76px;
+    padding: 9px 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(8, 20, 44, 0.55);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 1rem;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .vote-box input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.13);
+  }
+  .vote-box span { font-size: 0.72rem; color: var(--muted); }
+
+  .vote-final {
+    min-width: 56px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+  }
+  .vote-final span {
+    margin-inline-start: 3px;
+    font-size: 0.68rem;
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+  .vs {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--muted);
+  }
+
+  .confirm { margin-top: 2px; background: rgba(255, 255, 255, 0.1); }
+  .match-error { color: var(--danger); font-size: 0.82rem; }
+  .shake { animation: shake 0.35s; }
+
+  .round-done {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    border-radius: var(--radius);
+    background: rgba(126, 224, 195, 0.07);
+    border: 1px dashed rgba(126, 224, 195, 0.35);
+  }
+  .round-done p { color: var(--teal); font-weight: 700; font-size: 0.95rem; }
+  .round-done .check {
+    display: inline-grid;
+    place-items: center;
+    width: 22px; height: 22px;
+    margin-inline-end: 6px;
+    border-radius: 50%;
+    background: rgba(126, 224, 195, 0.18);
+    font-size: 0.8rem;
+  }
+
+  .next-wrap { display: flex; justify-content: center; margin: 24px 0 6px; animation: rise 0.4s ease both; }
+  .next-wrap .round-done { width: 100%; }
+
+  /* ---------- history ---------- */
+  .history { margin-top: 22px; padding: 0; overflow: hidden; }
+  .history summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+  }
+  .history summary::-webkit-details-marker { display: none; }
+  .history summary::after {
+    content: "عرض";
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+  .history[open] summary::after { content: "إخفاء"; }
+  .hist-body { padding: 0 18px 18px; }
+  .hist-round { margin-top: 14px; }
+  .hist-round h3 { font-size: 0.95rem; color: var(--accent); margin-bottom: 8px; }
+  .hist-round ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .hist-round li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 0.9rem;
+  }
+  .hist-round .score { color: var(--accent); font-weight: 700; }
+  .hist-round em {
+    margin-inline-start: auto;
+    color: var(--teal);
+    font-style: normal;
+    font-size: 0.82rem;
+  }
+
+  /* ---------- champion ---------- */
+  .champion-screen {
+    min-height: calc(100vh - 150px);
+    display: grid;
+    place-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .champion-card {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    overflow: hidden;
+    padding: 46px 28px 38px;
+    text-align: center;
+  }
+  .champion-card::after {
+    content: "";
+    position: absolute;
+    inset: -40% -20% auto;
+    height: 300px;
+    background: radial-gradient(closest-side, rgba(255, 209, 102, 0.26), transparent);
+    pointer-events: none;
+  }
+  .crown {
+    position: relative;
+    z-index: 1;
+    font-size: 5rem;
+    line-height: 1;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 12px 30px rgba(255, 209, 102, 0.35));
+    animation: float 3s ease-in-out infinite;
+  }
+  .champion-name {
+    position: relative;
+    z-index: 1;
+    margin: 6px 0 10px;
+    font-size: clamp(2rem, 7vw, 3.4rem);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+    background: linear-gradient(135deg, #ffffff, #ffe6a3);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .champion-sub { color: var(--muted); margin-bottom: 26px; position: relative; z-index: 1; }
+  .champion-stats {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+  }
+  .champion-stats div {
+    min-width: 96px;
+    padding: 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
+  }
+  .champion-stats strong { display: block; color: var(--accent); font-size: 1.4rem; }
+  .champion-stats span { font-size: 0.75rem; color: var(--muted); }
+  .champion-card .btn { position: relative; z-index: 1; }
+
+  /* ---------- confetti & toast ---------- */
+  #confetti {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 20;
+  }
+  #confetti i {
+    position: absolute;
+    top: -20px;
+    display: block;
+    border-radius: 2px;
+    opacity: 0.9;
+    animation: fall linear infinite;
+  }
+
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    z-index: 80;
+    max-width: min(92vw, 460px);
+    padding: 12px 20px;
+    border-radius: 50px;
+    background: #17264a;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    font-size: 0.9rem;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 20px);
+    transition: opacity 0.25s, transform 0.25s;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  /* ---------- animations ---------- */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+  @keyframes fall {
+    0% { transform: translateY(-5vh) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(720deg); }
+  }
+
+  /* ---------- responsive ---------- */
+  @media (min-width: 760px) {
+    .matches { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 520px) {
+    body { padding: 18px 12px 50px; }
+    .site-head h1 { font-size: 1.35rem; }
+    .brand-icon { width: 46px; height: 46px; font-size: 1.4rem; }
+    .setup { padding: 18px; }
+    .round-banner { padding: 16px; }
+    .round-banner h2 { font-size: 1.25rem; }
+    .round-counter { min-width: 84px; }
+    .contender { padding: 10px 12px; }
+    .vote-box input { width: 64px; }
+    .vote-final { min-width: 46px; font-size: 1.3rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+    #confetti { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <main id="app"></main>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div id="confetti" aria-hidden="true"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  var KEY = "knockout-tournament-v1";
+  var MAX_NAMES = 128;
+  var MAX_VOTES = 9999;
+
+  var $ = function (sel, root) { return (root || document).querySelector(sel); };
+  var ESC_MAP = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+
+  function esc(value) {
+    return String(value).replace(/[&<>"']/g, function (ch) { return ESC_MAP[ch]; });
+  }
+
+  function nextPow2(n) {
+    var p = 1;
+    while (p < n) p *= 2;
+    return p;
+  }
+
+  function shuffle(items) {
+    var arr = items.slice();
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = tmp;
+    }
+    return arr;
+  }
+
+  function arabicCount(n, forms) {
+    if (n === 1) return forms.one;
+    if (n === 2) return forms.two;
+    if (n >= 3 && n <= 10) return n + " " + forms.few;
+    return n + " " + forms.many;
+  }
+
+  var peopleForms = { one: "متسابق واحد", two: "متسابقان", few: "متسابقين", many: "متسابقاً" };
+  var matchForms = { one: "مواجهة واحدة", two: "مواجهتان", few: "مواجهات", many: "مواجهة" };
+  var byeForms = { one: "تأهل تلقائي واحد", two: "تأهلان تلقائياً", few: "تأهلات تلقائية", many: "تأهلاً تلقائياً" };
+  var nameForms = { one: "اسم واحد", two: "اسمين", few: "أسماء", many: "اسماً" };
+
+  /* ---------- persistence ---------- */
+
+  function loadTournament() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return null;
+      var t = JSON.parse(raw);
+      if (!t || !Array.isArray(t.players) || !t.players.length) return null;
+      if (!Array.isArray(t.rounds) || !t.rounds.length) return null;
+      if (typeof t.current !== "number" || !t.rounds[t.current]) return null;
+      if (t.champion && typeof t.champion !== "string") return null;
+
+      for (var r = 0; r < t.rounds.length; r++) {
+        var round = t.rounds[r];
+        if (!round || !Array.isArray(round.matches) || !round.matches.length) return null;
+        for (var m = 0; m < round.matches.length; m++) {
+          var match = round.matches[m];
+          if (!match || typeof match.a !== "string") return null;
+          if (match.b !== null && typeof match.b !== "string") return null;
+        }
+      }
+      return t;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function save() {
+    try {
+      if (tourney) localStorage.setItem(KEY, JSON.stringify(tourney));
+      else localStorage.removeItem(KEY);
+    } catch (err) { /* storage may be unavailable */ }
+  }
+
+  /* ---------- round construction ---------- */
+
+  function createRound(players) {
+    var n = players.length;
+    var target = nextPow2(n);
+    var totalMatches = target / 2;
+    var byeCount = target - n;
+    var matches = [];
+    var pi = 0;
+
+    for (var i = 0; i < totalMatches; i++) {
+      var isBye = Math.floor((i + 1) * byeCount / totalMatches) > Math.floor(i * byeCount / totalMatches);
+      if (isBye) {
+        var solo = players[pi++];
+        matches.push({ a: solo, b: null, va: null, vb: null, winner: solo });
+      } else {
+        var a = players[pi++];
+        var b = players[pi++];
+        matches.push({ a: a, b: b, va: null, vb: null, winner: null });
+      }
+    }
+    return { matches: matches };
+  }
+
+  function roundLabel(round, index) {
+    var byeCount = round.matches.filter(function (m) { return !m.b; }).length;
+    if (index === 0 && byeCount > 0) return "الدور الأول";
+
+    var slots = round.matches.length * 2;
+    var known = {
+      2: "النهائي",
+      4: "نصف النهائي",
+      8: "ربع النهائي",
+      16: "دور 16",
+      32: "دور 32",
+      64: "دور 64"
+    };
+    return known[slots] || "دور " + slots;
+  }
+
+  /* ---------- screens ---------- */
+
+  function header(mode) {
+    var subtitle = mode === "running"
+      ? "سجّل أصوات الجمهور في كل مواجهة، والفائز يكمل"
+      : "أدخل الأسماء، وصوّت، والفائز يكمل";
+
+    return '' +
+      '<header class="site-head">' +
+        '<div class="brand">' +
+          '<span class="brand-icon" aria-hidden="true">🏆</span>' +
+          '<div>' +
+            '<h1>بطولة المواجهات</h1>' +
+            '<p>' + subtitle + '</p>' +
+          '</div>' +
+        '</div>' +
+        (mode === "running"
+          ? '<button type="button" class="btn ghost small" data-action="reset">بطولة جديدة</button>'
+          : '') +
+      '</header>';
+  }
+
+  function setupScreen() {
+    return '' +
+      header("setup") +
+      '<section class="setup card">' +
+        '<h2>أسماء المتسابقين</h2>' +
+        '<p class="section-sub">اكتب كل اسم في سطر مستقل. التوزيع والمواجهات عشوائية.</p>' +
+        '<textarea id="namesInput" placeholder="محمد&#10;علي&#10;سارة&#10;خالد&#10;نورة" spellcheck="false" autocomplete="off"></textarea>' +
+        '<div class="setup-meta">' +
+          '<span id="nameCount">0 اسم</span>' +
+          '<span class="dot"></span>' +
+          '<span>من اسمين إلى ' + MAX_NAMES + ' اسماً</span>' +
+        '</div>' +
+        '<div class="setup-error" id="setupError" hidden></div>' +
+        '<div class="setup-actions">' +
+          '<button type="button" class="btn ghost" data-action="shuffle">🔀 خلط الأسماء</button>' +
+          '<button type="button" class="btn primary big" data-action="start">ابدأ البطولة</button>' +
+        '</div>' +
+      '</section>' +
+      '<section class="how card">' +
+        '<h3>كيف تشتغل البطولة؟</h3>' +
+        '<ol>' +
+          '<li>تدخل الأسماء، وخلطها يكون عشوائياً.</li>' +
+          '<li>تظهر مواجهات ثنائية — تسجّل أصوات الجمهور لكل اسم.</li>' +
+          '<li>الأعلى أصواتاً يتأهل، وتستمر الجولات إلى أن يبقى بطل واحد.</li>' +
+        '</ol>' +
+      '</section>';
+  }
+
+  function byesBlock(byes) {
+    return '' +
+      '<section class="byes card">' +
+        '<div class="byes-head">' +
+          '<span>🎟️ تأهل تلقائي</span>' +
+          '<span class="pill">' + byes.length + '</span>' +
+        '</div>' +
+        '<div class="chips">' +
+          byes.map(function (m) { return '<span class="chip">' + esc(m.a) + '</span>'; }).join('') +
+        '</div>' +
+        '<p class="hint">لأن عدد الأسماء لا يكمل توزيعاً متساوياً، انتقل هؤلاء مباشرة إلى الجولة التالية.</p>' +
+      '</section>';
+  }
+
+  function matchCard(match, roundIndex, matchIndex, number) {
+    var decided = !!match.winner;
+    var idA = "va-" + roundIndex + "-" + matchIndex;
+    var idB = "vb-" + roundIndex + "-" + matchIndex;
+
+    function side(name, vote, inputId) {
+      var isWinner = decided && match.winner === name;
+      var classes = "contender";
+      if (decided) classes += isWinner ? " winner" : " loser";
+
+      var votePart = decided
+        ? '<div class="vote-final">' + (vote === null ? 0 : vote) + '<span>صوت</span></div>'
+        : '<div class="vote-box">' +
+            '<input id="' + inputId + '" class="vote-input" type="number" min="0" max="' + MAX_VOTES + '" step="1" inputmode="numeric" placeholder="0" aria-label="أصوات ' + esc(name) + '">' +
+            '<span>صوت</span>' +
+          '</div>';
+
+      return '' +
+        '<div class="' + classes + '">' +
+          '<div class="contender-name">' + esc(name) + '</div>' +
+          (isWinner ? '<span class="win-badge">تأهل ✓</span>' : '') +
+          votePart +
+        '</div>';
+    }
+
+    return '' +
+      '<article class="match card' + (decided ? ' is-decided' : '') + '" data-round="' + roundIndex + '" data-match="' + matchIndex + '">' +
+        '<div class="match-head">' +
+          '<span>مواجهة ' + number + '</span>' +
+          (decided
+            ? '<span class="status done">انتهت</span>'
+            : '<span class="status">بانتظار التصويت</span>') +
+        '</div>' +
+        side(match.a, match.va, idA) +
+        '<div class="vs">VS</div>' +
+        side(match.b, match.vb, idB) +
+        (decided
+          ? ''
+          : '<button type="button" class="btn confirm" data-action="confirm">اعتماد النتيجة</button>' +
+            '<p class="match-error" hidden></p>') +
+      '</article>';
+  }
+
+  function historyBlock() {
+    if (tourney.current === 0) return "";
+
+    var roundsHtml = tourney.rounds.slice(0, tourney.current).map(function (round, index) {
+      var real = round.matches.filter(function (m) { return m.b; });
+      return '' +
+        '<div class="hist-round">' +
+          '<h3>' + roundLabel(round, index) + '</h3>' +
+          '<ul>' +
+            real.map(function (m) {
+              return '<li>' +
+                '<span>' + esc(m.a) + '</span>' +
+                '<span class="score">' + (m.va === null ? 0 : m.va) + ' : ' + (m.vb === null ? 0 : m.vb) + '</span>' +
+                '<span>' + esc(m.b) + '</span>' +
+                '<em>' + esc(m.winner) + ' ✓</em>' +
+              '</li>';
+            }).join('') +
+          '</ul>' +
+        '</div>';
+    }).join("");
+
+    return '' +
+      '<details class="history card">' +
+        '<summary>نتائج الجولات السابقة</summary>' +
+        '<div class="hist-body">' + roundsHtml + '</div>' +
+      '</details>';
+  }
+
+  function tournamentScreen() {
+    var t = tourney;
+    var ri = t.current;
+    var round = t.rounds[ri];
+    var totalRounds = Math.round(Math.log(nextPow2(t.players.length)) / Math.LN2);
+    var realList = round.matches.map(function (m, i) { return { m: m, i: i }; })
+      .filter(function (x) { return x.m.b; });
+    var byes = round.matches.filter(function (m) { return !m.b; });
+    var decidedCount = realList.filter(function (x) { return x.m.winner; }).length;
+    var pct = realList.length ? Math.round(decidedCount / realList.length * 100) : 100;
+    var alive = round.matches.reduce(function (sum, m) { return sum + (m.b ? 2 : 1); }, 0);
+    var isFinal = ri === totalRounds - 1;
+    var allDone = decidedCount === realList.length;
+
+    return '' +
+      header("running") +
+      '<section class="round-banner card">' +
+        '<div>' +
+          '<p class="eyebrow">الجولة ' + (ri + 1) + ' من ' + totalRounds + '</p>' +
+          '<h2>' + roundLabel(round, ri) + '</h2>' +
+          '<p>' +
+            arabicCount(alive, peopleForms) + ' · ' + arabicCount(realList.length, matchForms) +
+            (byes.length ? ' · ' + arabicCount(byes.length, byeForms) : '') +
+          '</p>' +
+        '</div>' +
+        '<div class="round-counter">' +
+          '<strong>' + decidedCount + '/' + realList.length + '</strong>' +
+          '<span>مواجهات محسومة</span>' +
+        '</div>' +
+      '</section>' +
+      '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '"><i style="width:' + pct + '%"></i></div>' +
+      (byes.length ? byesBlock(byes) : '') +
+      '<section class="matches">' +
+        realList.map(function (x, order) {
+          return matchCard(x.m, ri, x.i, order + 1);
+        }).join('') +
+      '</section>' +
+      (allDone
+        ? '<div class="next-wrap"><div class="round-done">' +
+            '<p><span class="check">✓</span>اكتملت الجولة</p>' +
+            '<button type="button" class="btn primary big" data-action="next">' +
+              (isFinal ? 'تتويج البطل 🏆' : 'الجولة التالية ←') +
+            '</button>' +
+          '</div></div>'
+        : '') +
+      historyBlock();
+  }
+
+  function championScreen() {
+    var t = tourney;
+    var matchesPlayed = t.rounds.reduce(function (sum, round) {
+      return sum + round.matches.filter(function (m) { return m.b; }).length;
+    }, 0);
+
+    return '' +
+      '<div class="champion-screen">' +
+        '<div class="champion-card card">' +
+          '<div class="crown" aria-hidden="true">🏆</div>' +
+          '<p class="eyebrow">بطل البطولة</p>' +
+          '<h1 class="champion-name">' + esc(t.champion) + '</h1>' +
+          '<p class="champion-sub">آخر اسم واقف من بين ' + arabicCount(t.players.length, nameForms) + '</p>' +
+          '<div class="champion-stats">' +
+            '<div><strong>' + t.players.length + '</strong><span>مشارك</span></div>' +
+            '<div><strong>' + t.rounds.length + '</strong><span>جولة</span></div>' +
+            '<div><strong>' + matchesPlayed + '</strong><span>مواجهة</span></div>' +
+          '</div>' +
+          '<button type="button" class="btn primary big" data-action="reset">بطولة جديدة</button>' +
+        '</div>' +
+      '</div>';
+  }
+
+  /* ---------- actions ---------- */
+
+  function updateNameCount() {
+    var counter = $("#nameCount");
+    if (!counter) return;
+    var textarea = $("#namesInput");
+    var count = textarea.value.split(/\r?\n/).map(function (s) { return s.trim(); })
+      .filter(Boolean).length;
+    counter.textContent = count === 0 ? "0 اسم" : arabicCount(count, nameForms);
+  }
+
+  function setupError(msg) {
+    var box = $("#setupError");
+    if (!box) return;
+    box.textContent = msg;
+    box.hidden = false;
+  }
+
+  function clearSetupError() {
+    var box = $("#setupError");
+    if (box) box.hidden = true;
+  }
+
+  function getSetupNames() {
+    var textarea = $("#namesInput");
+    var lines = textarea.value.split(/\r?\n/).map(function (s) { return s.trim(); })
+      .filter(Boolean);
+    var seen = {};
+    var names = [];
+    var duplicates = 0;
+
+    lines.forEach(function (name) {
+      if (seen[name]) {
+        duplicates++;
+      } else {
+        seen[name] = true;
+        names.push(name);
+      }
+    });
+
+    return { names: names, duplicates: duplicates };
+  }
+
+  function shuffleDraft() {
+    var textarea = $("#namesInput");
+    if (!textarea) return;
+    var names = textarea.value.split(/\r?\n/).map(function (s) { return s.trim(); })
+      .filter(Boolean);
+    if (names.length < 2) {
+      setupError("أدخل اسمين على الأقل قبل الخلط.");
+      return;
+    }
+    textarea.value = shuffle(names).join("\n");
+    updateNameCount();
+    clearSetupError();
+    textarea.focus();
+  }
+
+  function startTournament() {
+    var parsed = getSetupNames();
+    if (parsed.names.length < 2) {
+      setupError("أدخل اسمين على الأقل لتبدأ البطولة.");
+      return;
+    }
+    if (parsed.names.length > MAX_NAMES) {
+      setupError("الحد الأقصى " + MAX_NAMES + " اسماً في البطولة الواحدة.");
+      return;
+    }
+
+    var shuffled = shuffle(parsed.names);
+    tourney = {
+      players: shuffled,
+      rounds: [createRound(shuffled)],
+      current: 0,
+      champion: null
+    };
+    save();
+    render();
+    if (parsed.duplicates > 0) {
+      toast("تم تجاهل " + parsed.duplicates + " من الأسماء المكررة.");
+    }
+    window.scrollTo({ top: 0 });
+  }
+
+  function readVote(id) {
+    var el = document.getElementById(id);
+    if (!el) return 0;
+    var raw = el.value.trim();
+    if (raw === "") return 0;
+    var value = Number(raw);
+    if (!isFinite(value) || value < 0) return null;
+    return Math.min(MAX_VOTES, Math.floor(value));
+  }
+
+  function confirmMatch(button) {
+    var card = button.closest(".match");
+    if (!card) return;
+    var ri = Number(card.getAttribute("data-round"));
+    var mi = Number(card.getAttribute("data-match"));
+    var round = tourney.rounds[ri];
+    var match = round && round.matches[mi];
+    if (!match) return;
+
+    var errorBox = card.querySelector(".match-error");
+    var fail = function (msg) {
+      if (errorBox) {
+        errorBox.textContent = msg;
+        errorBox.hidden = false;
+      }
+      card.classList.remove("shake");
+      void card.offsetWidth;
+      card.classList.add("shake");
+    };
+
+    var va = readVote("va-" + ri + "-" + mi);
+    var vb = readVote("vb-" + ri + "-" + mi);
+
+    if (va === null || vb === null) {
+      fail("اكتب عدد أصوات صحيحاً (0 أو أكثر).");
+      return;
+    }
+    if (va === vb) {
+      fail("التعادل غير مسموح — لازم أحد الطرفين يتفوق.");
+      return;
+    }
+
+    match.va = va;
+    match.vb = vb;
+    match.winner = va > vb ? match.a : match.b;
+    save();
+    render();
+  }
+
+  function isRoundComplete(round) {
+    return round.matches.every(function (m) { return !!m.winner; });
+  }
+
+  function nextRound() {
+    var round = tourney.rounds[tourney.current];
+    if (!round || !isRoundComplete(round)) return;
+
+    var advancing = round.matches.map(function (m) { return m.winner; });
+
+    if (advancing.length === 1) {
+      tourney.champion = advancing[0];
+    } else {
+      tourney.rounds.push(createRound(advancing));
+      tourney.current++;
+    }
+
+    save();
+    render();
+    if (!tourney.champion) window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function resetTournament() {
+    var confirmed = window.confirm("تبدأ بطولة جديدة؟ سيُفقد التقدم الحالي.");
+    if (!confirmed) return;
+    tourney = null;
+    save();
+    render();
+    window.scrollTo({ top: 0 });
+  }
+
+  var toastTimer = null;
+  function toast(message) {
+    var el = $("#toast");
+    if (!el) return;
+    el.textContent = message;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove("show"); }, 2800);
+  }
+
+  function launchConfetti() {
+    var wrap = $("#confetti");
+    if (!wrap) return;
+    wrap.innerHTML = "";
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var colors = ["#ffd166", "#7ee0c3", "#ff8fab", "#9bb7ff", "#ffffff"];
+    for (var i = 0; i < 55; i++) {
+      var piece = document.createElement("i");
+      piece.style.left = Math.random() * 100 + "%";
+      piece.style.width = 6 + Math.random() * 7 + "px";
+      piece.style.height = 8 + Math.random() * 11 + "px";
+      piece.style.background = colors[i % colors.length];
+      piece.style.animationDelay = Math.random() * 1.6 + "s";
+      piece.style.animationDuration = 2.6 + Math.random() * 2.8 + "s";
+      wrap.appendChild(piece);
+    }
+  }
+
+  /* ---------- render & events ---------- */
+
+  function render() {
+    var app = $("#app");
+
+    if (!tourney) {
+      app.innerHTML = setupScreen();
+      updateNameCount();
+      return;
+    }
+    if (tourney.champion) {
+      app.innerHTML = championScreen();
+      launchConfetti();
+      return;
+    }
+    app.innerHTML = tournamentScreen();
+  }
+
+  document.addEventListener("click", function (event) {
+    var target = event.target.closest("[data-action]");
+    if (!target) return;
+
+    var action = target.getAttribute("data-action");
+    if (action === "shuffle") shuffleDraft();
+    else if (action === "start") startTournament();
+    else if (action === "confirm") confirmMatch(target);
+    else if (action === "next") nextRound();
+    else if (action === "reset") resetTournament();
+  });
+
+  document.addEventListener("input", function (event) {
+    if (event.target && event.target.id === "namesInput") {
+      updateNameCount();
+      clearSetupError();
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "Enter" || !event.target || !event.target.classList.contains("vote-input")) return;
+    event.preventDefault();
+    var card = event.target.closest(".match");
+    var button = card && card.querySelector('[data-action="confirm"]');
+    if (button) button.click();
+  });
+
+  var tourney = loadTournament();
+  render();
+})();
+</script>
+</body>
+</html>
